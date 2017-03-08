@@ -18,6 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 $api = app('Dingo\Api\Routing\Router');
-$api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
-    $api->get('/hello/', 'UserController@index');
+$api->version('v1', function ($api) {
+    $api->group(['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
+        $api->get('/user/', 'UserController@index');
+        $api->group(['middleware' => 'api.auth'], function ($api) {
+            $api->get('/users/sync/', 'UserController@sync');
+        });
+    });
 });
