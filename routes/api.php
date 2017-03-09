@@ -21,8 +21,11 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
     $api->group(['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
         $api->get('/user/', 'UserController@index');
+        $api->get('/auth/', 'UserController@auth');
         $api->group(['middleware' => 'api.auth'], function ($api) {
-            $api->get('/users/sync/', 'UserController@sync');
+            $api->get('/users/sync/', function () {
+                return '234567890-';
+            });
         });
     });
 });
