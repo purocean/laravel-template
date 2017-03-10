@@ -22,7 +22,7 @@ $api->version('v1', function ($api) {
     $api->group(['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
         $api->get('/user/', 'UserController@index');
         $api->get('/auth/', 'UserController@auth');
-        $api->group(['middleware' => 'api.auth'], function ($api) {
+        $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
             $api->get('/users/sync/', function () {
                 return '234567890-';
             });
