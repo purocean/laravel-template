@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\Rbac\ShowRoles::class,
         Commands\Rbac\ShowPerms::class,
         Commands\Rbac\AddRole::class,
+        Commands\Rbac\RemoveRole::class,
         Commands\Rbac\ResetPassword::class,
         Commands\Rbac\AddUser::class,
         Commands\Rbac\AddPerm::class,
