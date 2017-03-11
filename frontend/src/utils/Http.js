@@ -3,17 +3,6 @@ import Config from 'config';
 
 import Auth from '../auth/Auth';
 
-const getUrl = url => {
-  if (!url.startsWith('http')) {
-    if (Config.appEnv !== 'dist') {
-      url = '/api' + url;
-    } else {
-      url = '/index.php' + url;
-    }
-  }
-  return url;
-};
-
 const fixFullUrl = url => {
   if (/^\//.test(url)) {
     url = location.protocol + '//' + location.host + url;
@@ -25,12 +14,9 @@ const fixFullUrl = url => {
 };
 
 export default {
-  getUrl,
   fixFullUrl,
 
   fetch: (url, params = {}, cbSuccess = (() => {}),  cbError = (() => {}), ...other) => {
-    url = getUrl(url);
-
     params = Object.assign({
       headers: Object.assign({
         'Accept': 'application/json',
