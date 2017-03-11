@@ -12,21 +12,21 @@
     <Card class="login-card">
       <h1>登录</h1>
       <a class="login-switcher" href="">二维码登录</a>
-      <i-form ref="login-form" :model="formInline" :rules="ruleInline" class="login-form">
-        <Form-item prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="Username">
+      <iForm ref="login-form" :model="formInline" :rules="ruleInline" class="login-form">
+        <FormItem prop="user">
+          <Input type="text" v-model="formInline.user" placeholder="Username">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="Password">
+        </FormItem>
+        <FormItem prop="password">
+          <Input type="password" v-model="formInline.password" placeholder="Password">
             <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item>
-          <i-button type="primary" @click.native="handleSubmit('formInline')" long>登录</i-button>
-        </Form-item>
-      </i-form>
+        </FormItem>
+        <FormItem>
+          <Button type="primary" @click.native="handleSubmit('formInline')" long>登录</Button>
+        </FormItem>
+      </iForm>
     </Card>
   </div>
 </template>
