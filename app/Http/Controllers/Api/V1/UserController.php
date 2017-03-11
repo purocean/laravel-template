@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Dingo\Api\Routing\Helpers;
 
 /**
  *  @Resource("Users", uri="/users")
  */
 class UserController extends Controller
 {
-    use Helpers;
-
     /**
      * @Get("/")
      */
@@ -22,20 +19,27 @@ class UserController extends Controller
         return '尼玛';
     }
 
-    public function auth(Request $request)
+    public function login(Request $request)
     {
-        $username = $request->get('username');
-        $password = $request->get('password');
+        $username = $request->json('username');
+        $password = $request->json('password');
 
         $credentials = ['password' => $password, 'username' => $username];
 
         try {
             if (!$access_token = JWTAuth::attempt($credentials)) {
-                $this->response->errorUnauthorized('帐号或密码错误');
+                return $this->ajax('error', '账号或者密码有误');
             }
-            return $this->response->array(['access_token' => $access_token]);
+
+            $user = \Auth::user();
+            return $this->ajax('ok', '登录成功', [
+                'name' => $user->name,
+                'username' => $user->username,
+                'access_token' => $access_token,
+                'expires' => time() + 60 * 60, // 一个小时过期
+            ]);
         } catch (JWTException $e) {
-            $this->response->errorInternal('暂时无法生成token');
+             return $this->response->errorInternal('无法生成 Token');
         }
     }
 }

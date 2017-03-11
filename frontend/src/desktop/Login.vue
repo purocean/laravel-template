@@ -24,7 +24,7 @@
           </Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click.native="handleSubmit('formInline')" long>登录</Button>
+          <Button type="primary" @click.native="handleSubmit()" :loading="loading" long>登录</Button>
         </FormItem>
       </iForm>
     </Card>
@@ -32,10 +32,14 @@
 </template>
 
 <script>
+import Http from '@/utils/Http'
+import Auth from '@/auth/Auth'
+
 export default {
   name: 'login',
   data () {
     return {
+      loading: false,
       formInline: {
         username: '',
         password: ''
@@ -54,9 +58,23 @@ export default {
     handleSubmit () {
       this.$refs['login-form'].validate((valid) => {
         if (valid) {
-          this.$Message.success('提交成功!')
-        } else {
-          this.$Message.error('表单验证失败!')
+          this.loading = true
+
+          Http.fetch('/api/login', {
+            method: 'post',
+            body: this.formInline
+          }, result => {
+            if (result.status === 'ok') {
+              Auth.setUser(result.data)
+              this.$router.replace(this.$route.query.next || '/')
+
+              this.$Message.success(result.message)
+            } else {
+              this.$Message.error(result.message)
+            }
+
+            this.loading = false
+          })
         }
       })
     },

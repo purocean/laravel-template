@@ -1,14 +1,13 @@
-// import Config from 'config'
-
 import Storage from '@/utils/Storage'
-// import Http from '@/utils/Http'
+import Http from '@/utils/Http'
 
 const setUser = function (user) {
   return Storage.set('auth_user', user)
 }
 
 const getUser = function () {
-  return Storage.get('auth_user', {})
+  let user = Storage.get('auth_user', {})
+  return (user && user.expires > Date.parse(new Date()) / 1000) ? user : {}
 }
 
 const getAccessToken = function () {
@@ -64,19 +63,19 @@ const checkPermission = function (permissions, permission) {
 /**
  * Check from server if callback provided.
  */
-// const can = function (item, callback) {
-//   if (callback) {
-//     Http.fetch('/user/items', {}, data => {
-//         setRoles(data.roles)
-//         setPermissions(data.permissions)
-//         callback(checkRole(item) || checkPermission(getPermissions(), item))
-//     }, error => {
-//         callback(error.status)
-//     })
-//   } else {
-//     return checkRole(item) || checkPermission(getPermissions(), item)
-//   }
-// }
+const can = function (item, callback) {
+  if (callback) {
+    Http.fetch('/user/items', {}, data => {
+      setRoles(data.roles)
+      setPermissions(data.permissions)
+      callback(checkRole(item) || checkPermission(getPermissions(), item))
+    }, error => {
+      callback(error.status)
+    })
+  } else {
+    return checkRole(item) || checkPermission(getPermissions(), item)
+  }
+}
 
 export default {
   setUser,
@@ -89,5 +88,5 @@ export default {
   checkPermission,
   checkRole,
   isLogin,
-  // can
+  can
 }
