@@ -1,3 +1,7 @@
+// 修改下面两行开发
+const devRemoteUrl = 'http://192.168.1.108:8080'
+const devPort = 8077
+
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
 
@@ -23,11 +27,15 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8077,
+    port: devPort,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api/*': {
+        target: devRemoteUrl,
+      },
+    },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

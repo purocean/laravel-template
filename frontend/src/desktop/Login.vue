@@ -13,8 +13,8 @@
       <h1>登录</h1>
       <a class="login-switcher" href="">二维码登录</a>
       <iForm ref="login-form" :model="formInline" :rules="ruleInline" class="login-form">
-        <FormItem prop="user">
-          <Input type="text" v-model="formInline.user" placeholder="Username">
+        <FormItem prop="username">
+          <Input type="text" v-model="formInline.username" placeholder="Username">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
@@ -37,16 +37,15 @@ export default {
   data () {
     return {
       formInline: {
-        user: '',
+        username: '',
         password: ''
       },
       ruleInline: {
-        user: [
+        username: [
           { required: true, message: '请填写用户名', trigger: 'blur' }
         ],
         password: [
-        { required: true, message: '请填写密码', trigger: 'blur' },
-          { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+          { required: true, message: '请填写密码', trigger: 'blur' },
         ]
       }
     }
