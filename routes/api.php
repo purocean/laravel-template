@@ -19,13 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
-    $api->group(['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
-        $api->post('/login/', 'UserController@login');
-        $api->get('/user/', 'UserController@index');
-        $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
-            $api->get('/users/sync/', function () {
-                return '234567890-';
-            });
-        });
+    $api->post('/login/', 'App\Http\Controllers\Api\V1\UserController@login');
+
+    $api->group([
+        'namespace' => 'App\Http\Controllers\Api\V1',
+        'middleware' => ['api.auth', 'jwt.refresh']
+    ], function ($api) {
+        $api->get('/users/items/', 'UserController@items');
     });
 });

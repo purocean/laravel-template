@@ -14,12 +14,12 @@
       <a class="login-switcher" href="">二维码登录</a>
       <iForm ref="login-form" :model="formInline" :rules="ruleInline" class="login-form">
         <FormItem prop="username">
-          <Input type="text" v-model="formInline.username" placeholder="Username">
+          <Input type="text" v-model="formInline.username" placeholder="Username" @keyup.enter.native="handleSubmit()">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
         <FormItem prop="password">
-          <Input type="password" v-model="formInline.password" placeholder="Password">
+          <Input type="password" v-model="formInline.password" placeholder="Password" @keyup.enter.native="handleSubmit()">
             <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
@@ -54,6 +54,12 @@ export default {
       }
     }
   },
+  mounted () {
+    Auth.setAccessToken('')
+    Auth.setPermissions({})
+    Auth.setRoles({})
+    Auth.setUser('')
+  },
   methods: {
     handleSubmit () {
       this.$refs['login-form'].validate((valid) => {
@@ -65,7 +71,8 @@ export default {
             body: this.formInline
           }, result => {
             if (result.status === 'ok') {
-              Auth.setUser(result.data)
+              Auth.setUser(result.data.user)
+              Auth.setAccessToken(result.data.token)
               this.$router.replace(this.$route.query.next || '/')
 
               this.$Message.success(result.message)

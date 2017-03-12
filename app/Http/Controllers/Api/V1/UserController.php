@@ -31,15 +31,40 @@ class UserController extends Controller
                 return $this->ajax('error', '账号或者密码有误');
             }
 
-            $user = \Auth::user();
-            return $this->ajax('ok', '登录成功', [
-                'name' => $user->name,
-                'username' => $user->username,
-                'access_token' => $access_token,
-                'expires' => time() + 60 * 60, // 一个小时过期
-            ]);
+            if ($user = \Auth::user()) {
+                return $this->ajax('ok', '登录成功', [
+                    'user' => [
+                        'name' => $user->name,
+                        'username' => $user->username,
+                    ],
+                    'token' => $access_token,
+                ]);
+            } else {
+                return $this->response->errorInternal('获取登录用户失败');
+            }
+
         } catch (JWTException $e) {
              return $this->response->errorInternal('无法生成 Token');
+        }
+    }
+
+    public function items()
+    {
+        if ($user = \Auth::user()) {
+            $roles = [];
+            $perms = [];
+
+            foreach ($user->roles as $role) {
+                $roles[$role->name] = $role->display_name;
+                $perms = array_column($role->perms->toArray(), 'display_name', 'name');
+            }
+
+            return $this->ajax('ok', '获取成功', [
+                'roles' => $roles,
+                'perms' => $perms,
+            ]);
+        } else {
+            return $this->errorInternal('获取用户失败');
         }
     }
 }

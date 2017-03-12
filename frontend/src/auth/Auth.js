@@ -6,12 +6,15 @@ const setUser = function (user) {
 }
 
 const getUser = function () {
-  let user = Storage.get('auth_user', {})
-  return (user && user.expires > Date.parse(new Date()) / 1000) ? user : {}
+  return Storage.get('auth_user', {})
+}
+
+const setAccessToken = function (token) {
+  return Storage.set('auth_token', token)
 }
 
 const getAccessToken = function () {
-  return getUser().access_token
+  return Storage.get('auth_token', '')
 }
 
 const isLogin = function () {
@@ -65,9 +68,9 @@ const checkPermission = function (permissions, permission) {
  */
 const can = function (item, callback) {
   if (callback) {
-    Http.fetch('/user/items', {}, data => {
-      setRoles(data.roles)
-      setPermissions(data.permissions)
+    Http.fetch('/api/users/items', {}, result => {
+      setRoles(result.data.roles)
+      setPermissions(result.data.perms)
       callback(checkRole(item) || checkPermission(getPermissions(), item))
     }, error => {
       callback(error.status)
@@ -80,6 +83,7 @@ const can = function (item, callback) {
 export default {
   setUser,
   getUser,
+  setAccessToken,
   getAccessToken,
   getPermissions,
   setPermissions,

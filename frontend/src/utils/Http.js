@@ -27,10 +27,16 @@ export default {
     })
 
     return fetch(url, params, ...other).then(response => {
+      let token = response.headers.get('Authorization')
+      if (token) {
+        Auth.setAccessToken(token)
+      }
+
       if (response.ok) {
         response.json().then((data) => cbSuccess(data, response))
       } else {
         if (response.status === 401) {
+          Auth.setAccessToken('')
           Auth.setPermissions({})
           Auth.setRoles({})
           Auth.setUser('')

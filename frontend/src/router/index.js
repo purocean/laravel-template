@@ -2,18 +2,22 @@ import Vue from 'vue'
 import iView from 'iview'
 import Router from 'vue-router'
 import Auth from '@/auth/Auth'
+import Err from '@/desktop/Error'
 import Login from '@/desktop/Login.vue'
+import Home from '@/desktop/Home.vue'
 
 import 'iview/dist/styles/iview.css'
 
 Vue.use(Router)
 Vue.use(iView)
 
-const allowList = ['/error', '/login']
+const allowList = ['/', '/error', '/login']
 
 const routes = [
-  {path: '/', name: 'home', redirect: '/login'},
+  {path: '/', name: '/', redirect: '/home'},
+  {path: '/home', name: 'home', component: Home},
   {path: '/login', name: 'login', component: Login},
+  {path: '/error', name: 'error', component: Err},
 ]
 
 const router = new Router({ routes })
@@ -25,15 +29,19 @@ router.beforeEach((to, from, next) => {
   }
 
   if (Auth.isLogin()) {
-    Auth.can(to.path, allow => {
-      if (allow) {
-        next()
-      } else {
-        next({name: 'error'})
-      }
-    })
+    if (Auth.can(to.path)) {
+      next()
+    } else {
+      Auth.can(to.path, allow => {
+        if (allow) {
+          next()
+        } else {
+          next({name: 'error'})
+        }
+      })
+    }
   } else {
-    next({name: 'login'})
+    next({name: 'login', query: {next: from.path}})
   }
 })
 
