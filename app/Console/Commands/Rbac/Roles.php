@@ -3,24 +3,25 @@
 namespace App\Console\Commands\Rbac;
 
 use Illuminate\Console\Command;
+use App\User;
 use App\Role;
 use App\Permission;
 
-class ShowPerms extends Command
+class Roles extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rbac:showperms {rolename?}';
+    protected $signature = 'rbac:roles {username?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'show permissions of roles';
+    protected $description = 'show roles of permissions';
 
     /**
      * Create a new command instance.
@@ -39,14 +40,14 @@ class ShowPerms extends Command
      */
     public function handle()
     {
-        $rolename = $this->argument('rolename');
+        $username = $this->argument('username');
         $headers = ['name', 'display_name', 'description'];
 
-        if (empty($rolename)) {
-            $this->table($headers, Permission::all($headers));
+        if (empty($username)) {
+            $this->table($headers, Role::all($headers));
         } else {
-            $role = Role::where(['name' => $rolename])->firstOrFail();
-            $this->table($headers, $role->perms->map(function ($row) {
+            $user = User::where(['username' => $username])->firstOrFail();
+            $this->table($headers, $user->roles->map(function ($row) {
                 return $row->makeHidden(['id', 'pivot', 'created_at', 'updated_at'])->toArray();
             }));
         }

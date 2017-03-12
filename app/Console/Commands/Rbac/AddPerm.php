@@ -40,13 +40,15 @@ class AddPerm extends Command
     {
         $permission = new Permission();
 
+        $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+
         $name = $this->argument('name');
         $displayName = $this->argument('displayName') ?: $name;
         $description = $this->argument('description') ?: $name;
 
         $permission->name = $name;
-        $permission->display_name = $displayName;
-        $permission->description = $description;
+        $permission->display_name = $isWindows ? mb_convert_encoding($displayName, 'UTF-8', 'GBK') : $displayName;
+        $permission->description = $isWindows ? mb_convert_encoding($description, 'UTF-8', 'GBK') : $description;
 
         $permission->saveOrFail();
 

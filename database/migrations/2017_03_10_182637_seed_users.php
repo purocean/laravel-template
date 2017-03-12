@@ -13,34 +13,13 @@ class SeedUsers extends Migration
      */
     public function up()
     {
-        DB::table('users')->insert([
-            [
-                'username' => 'suadmin',
-                'name' => '超级管理员',
-                'email' => str_random(10).'@'.str_random(4).'.com',
-                'password' => bcrypt(str_random(10)),
-            ],
-            [
-                'username' => 'admin',
-                'name' => '管理员',
-                'email' => str_random(10).'@'.str_random(4).'.com',
-                'password' => bcrypt(str_random(10)),
-            ],
-            [
-                'username' => 'demo',
-                'name' => '示例用户',
-                'email' => str_random(10).'@'.str_random(4).'.com',
-                'password' => bcrypt(str_random(10)),
-            ],
-        ]);
+        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole suadmin "超级管理员"');
+        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole admin "管理员"');
+        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole user "普通用户"');
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole suadmin');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole admin');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole user');
-
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachrole suadmin suadmin');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachrole admin admin');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachrole demo user');
+        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:adduser suadmin ' . str_random(10) . ' suadmin "超级管理员"');
+        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:adduser admin ' . str_random(10) . ' suadmin "管理员"');
+        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:adduser demo ' . str_random(10) . ' suadmin "示例用户"');
     }
 
     /**

@@ -5,6 +5,7 @@ import Auth from '@/auth/Auth'
 import Err from '@/desktop/Error'
 import Login from '@/desktop/Login.vue'
 import Home from '@/desktop/Home.vue'
+import Users from '@/desktop/Users.vue'
 
 import 'iview/dist/styles/iview.css'
 
@@ -14,8 +15,9 @@ Vue.use(iView)
 const allowList = ['/', '/error', '/login']
 
 const routes = [
-  {path: '/', name: '/', redirect: '/home'},
+  {path: '/', name: '/', redirect: '/users'},
   {path: '/home', name: 'home', component: Home},
+  {path: '/users', name: 'users', component: Users},
   {path: '/login', name: 'login', component: Login},
   {path: '/error', name: 'error', component: Err},
 ]

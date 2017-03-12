@@ -39,6 +39,8 @@ class AddUser extends Command
      */
     public function handle()
     {
+        $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+
         $user = new User();
 
         $username = $this->argument('username');
@@ -49,7 +51,7 @@ class AddUser extends Command
 
         $user->username = $username;
         $user->password = bcrypt($password);
-        $user->name = $name;
+        $user->name = $isWindows ? mb_convert_encoding($name, 'UTF-8', 'GBK') : $name;
         $user->email = $email;
 
         $user->saveOrFail();

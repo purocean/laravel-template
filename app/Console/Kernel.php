@@ -13,13 +13,14 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\Rbac\ShowRoles::class,
-        Commands\Rbac\ShowPerms::class,
+        Commands\Rbac\Roles::class,
+        Commands\Rbac\Perms::class,
         Commands\Rbac\AddRole::class,
         Commands\Rbac\RemoveRole::class,
+        Commands\Rbac\AddPerm::class,
+        Commands\Rbac\RemovePerm::class,
         Commands\Rbac\ResetPassword::class,
         Commands\Rbac\AddUser::class,
-        Commands\Rbac\AddPerm::class,
         Commands\Rbac\AttachRole::class,
         Commands\Rbac\DetachRole::class,
         Commands\Rbac\AttachPerm::class,
