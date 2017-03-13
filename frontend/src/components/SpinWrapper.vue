@@ -1,8 +1,8 @@
 <template>
   <div class="spin-wrapper">
     <slot></slot>
-    <div class="spin">
-      <Spin size="large" fix v-if="loading"></Spin>
+    <div class="spin" v-if="loading">
+      <Spin size="large" fix></Spin>
     </div>
   </div>
 </template>

@@ -1,28 +1,11 @@
 <template>
   <Layout class="departments" activeNav="/departments" :side="side" activeSide="/departments">
     <Card>
-      <SpinWrapper :loading="!tableData.data">
-        <Table
-          :content="self"
-          :data="tableData.data"
-          :columns="tableColumns"
-          size="small"
-          loading="true"
-          stripe
-          border></Table>
-        <div style="margin: 10px;overflow: hidden">
-          <div style="float: right;">
-            <Page
-              size="small"
-              :total="tableData.total"
-              :page-size="tableData.per_page"
-              :current="tableData.current"
-              @on-change="changePage"
-              show-total
-              show-elevator></Page>
-          </div>
+      <Crud ref="crud" resource="departments" :columns="tableColumns">
+        <div slot="action">
+          <Button :loading="syncing" type="primary" @click.native="sync()">从企业号同步</Button>
         </div>
-      </SpinWrapper>
+      </Crud>
     </Card>
   </Layout>
 </template>
@@ -30,25 +13,14 @@
 <script>
 import Http from '@/utils/Http'
 import Layout from '@/layouts/Desktop'
-import SpinWrapper from '@/components/SpinWrapper'
+import Crud from '@/components/Crud'
 
 export default {
   name: 'departments',
-  components: { Layout, SpinWrapper },
-  mounted () {
-    Http.fetch('/api/departments/list', {}, result => {
-      if (result.status === 'ok') {
-        this.tableData = result.data
-      } else {
-        this.$Message.error(result.message)
-      }
-    })
-  },
+  components: { Layout, Crud },
   data () {
     return {
       side: [{name: '/departments', text: '部门管理', icon: 'person-stalker'}],
-      self: this,
-      tableData: {},
       tableColumns: [
         {
           title: 'ID',
@@ -63,12 +35,24 @@ export default {
           title: '更新时间',
           key: 'created_at',
         }
-      ]
+      ],
+      syncing: false,
     }
   },
   methods: {
-    changePage (page) {
+    sync () {
+      this.syncing = true
+      Http.fetch(`/api/departments/sync`, {method: 'post'}, result => {
+        if (result.status === 'ok') {
+          this.$Message.success(result.message)
+        } else {
+          this.$Message.error(result.message)
+        }
 
+        this.syncing = false
+
+        this.$refs.crud.loadData(1)
+      })
     }
   }
 }
