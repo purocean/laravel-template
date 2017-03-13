@@ -4,22 +4,26 @@
       <div class="layout-nav">
         <router-link class="logo" to="/">Laravel template</router-link>
         <div class="main-menu">
-          <router-link v-for="nav in mainNav" :key="nav.name" :to="nav.link">
-            <MenuItem v-if="can(nav.name)" :name="nav.name">
+          <router-link v-for="nav in mainNav" v-if="can(nav.name)" :key="nav.name" :to="nav.link">
+            <MenuItem :name="nav.name">
               <Icon :type="nav.icon"></Icon>
               {{ nav.text }}
             </MenuItem>
           </router-link>
-          <MenuItem v-for="nav in extNav" :key="nav.name" v-if="can(nav.name)" :name="nav.name">
-            <Icon :type="nav.icon"></Icon>
-            {{ nav.text }}
-          </MenuItem>
+          <router-link v-for="nav in extNav" v-if="can(nav.name)" :key="nav.name" :to="nav.link">
+            <MenuItem :name="nav.name">
+              <Icon :type="nav.icon"></Icon>
+              {{ nav.text }}
+            </MenuItem>
+          </router-link>
         </div>
-        <MenuItem name="login" class="logout">
-          <Icon type="ios-person"></Icon>
-          <span class="user"> {{ logoutText }} </span>
-          <span class="out"> 退出登录 </span>
-        </MenuItem>
+        <router-link to="/login"> <!-- 暂时先这样吧 -->
+          <MenuItem name="login" class="logout">
+            <Icon type="ios-person"></Icon>
+            <span class="user"> {{ logoutText }} </span>
+            <span class="out"> 退出登录 </span>
+          </MenuItem>
+        </router-link>
       </div>
     </Menu>
     <div class="main">
