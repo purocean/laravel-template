@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="login">
     <Menu mode="horizontal" theme="light" activeName="login" class="nav">
       <div class="layout-nav">
         <router-link class="logo" to="/">Laravel template</router-link>
-        <Menu-item name="login" class="layout-menu">
+        <MenuItem name="login" class="layout-menu">
           <Icon type="ios-person"></Icon>
           登录
-        </Menu-item>
+        </MenuItem>
       </div>
     </Menu>
     <Card class="login-card">

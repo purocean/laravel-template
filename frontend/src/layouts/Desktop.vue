@@ -1,124 +1,152 @@
 <template>
-  <div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
-    <Row type="flex">
-      <i-col :span="spanLeft" class="layout-menu-left">
-        <Menu activeName="a" theme="dark" width="auto">
-          <div class="layout-logo-left"></div>
-          <Menu-item name="a">
-            <Icon type="ios-navigate" :size="iconSize"></Icon>
-            <span class="layout-text">选项 1</span>
-          </Menu-item>
-          <Menu-item name="b">
-            <Icon type="ios-keypad" :size="iconSize"></Icon>
-            <span class="layout-text">选项 2</span>
-          </Menu-item>
-          <Menu-item name="c">
-            <Icon type="ios-analytics" :size="iconSize"></Icon>
-            <span class="layout-text">选项 3</span>
-          </Menu-item>
-        </Menu>
-      </i-col>
-      <i-col :span="spanRight">
-        <div class="layout-header">
-          <i-button type="text" @click="toggleClick">
-            <Icon type="navicon" size="32"></Icon>
-          </i-button>
+  <div class="layout">
+    <Menu ref="nav" mode="horizontal" theme="light" :activeName="activeNav" class="nav">
+      <div class="layout-nav">
+        <router-link class="logo" to="/">Laravel template</router-link>
+        <div class="main-menu">
+          <MenuItem v-for="nav in mainNav" :key="nav.name" v-if="can(nav.name)" :name="nav.name">
+            <Icon :type="nav.icon"></Icon>
+            {{ nav.text }}
+          </MenuItem>
+          <MenuItem v-for="nav in extNav" :key="nav.name" v-if="can(nav.name)" :name="nav.name">
+            <Icon :type="nav.icon"></Icon>
+            {{ nav.text }}
+          </MenuItem>
         </div>
-        <div class="layout-breadcrumb">
-          <Breadcrumb>
-            <Breadcrumb-item href="#">首页</Breadcrumb-item>
-            <Breadcrumb-item href="#">应用中心</Breadcrumb-item>
-            <Breadcrumb-item>某应用</Breadcrumb-item>
-          </Breadcrumb>
-        </div>
+        <MenuItem name="login" class="logout">
+          <Icon type="ios-person"></Icon>
+          <span class="user"> {{ logoutText }} </span>
+          <span class="out"> 退出登录 </span>
+        </MenuItem>
+      </div>
+    </Menu>
+    <div class="main">
+      <Menu class="left" :activeName="activeSide" theme="light" v-if="hasSide">
+        <div class="layout-logo-left"></div>
+        <Menu-item v-for="item in side" :name="item.name" :key="item.name">
+          <Icon :type="item.icon" size="14"></Icon>
+          <span class="layout-text">{{ item.text }}</span>
+        </Menu-item>
+      </Menu>
+      <div class="right" :class="{'has-side': hasSide}" :style="{minHeight: minHeight + 'px'}">
         <div class="layout-content">
-          <div class="layout-content-main">内容区域</div>
+          <slot></slot>
         </div>
         <div class="layout-copy">
-          2017 &copy; purocean
+          2017 &copy; purocean@outlook.com
         </div>
-      </i-col>
-    </Row>
+      </iCol>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'layout-desktop',
-    data () {
-      return {
-        spanLeft: 4,
-        spanRight: 20
-      }
-    },
-    computed: {
-      iconSize () {
-        return this.spanLeft === 4 ? 14 : 24
-      }
-    },
-    methods: {
-      toggleClick () {
-        console.log(1111)
-        if (this.spanLeft === 4) {
-          this.spanLeft = 2
-          this.spanRight = 22
-        } else {
-          this.spanLeft = 4
-          this.spanRight = 20
-        }
-      }
+import Auth from '@/auth/Auth'
+
+export default {
+  name: 'users',
+  props: ['activeNav', 'side', 'extNav', 'activeSide'],
+  components: { Auth },
+  data () {
+    return {
+      mainNav: [
+        {name: '/users', text: '用户管理', icon: 'person-stalker'},
+        {name: '/departments', text: '部门管理', icon: 'person-stalker'},
+      ],
+      minHeight: document.documentElement.clientHeight - 60
     }
+  },
+  mounted: function () {
+    window.addEventListener('resize', this.handleResize)
+  },
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  computed: {
+    logoutText () {
+      return Object.values(Auth.getRoles()).toString() + ' ' + (Auth.getUser().name || Auth.getUser().username)
+    },
+    hasSide () {
+      return this.side !== undefined
+    }
+  },
+  methods: {
+    handleResize () {
+      this.minHeight = document.documentElement.clientHeight - this.$refs.nav.$el.clientHeight
+    },
+    can (permission) {
+      return Auth.can(permission)
+    },
   }
+}
 </script>
 
 <style scoped>
-  .layout{
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .layout-breadcrumb{
-    padding: 10px 15px 0;
-  }
-  .layout-content{
-    min-height: 200px;
-    margin: 15px;
-    overflow: hidden;
-    background: #fff;
-    border-radius: 4px;
-  }
-  .layout-content-main{
-    padding: 10px;
-  }
-  .layout-copy{
-    text-align: center;
-    padding: 10px 0 20px;
-    color: #9ea7b4;
-  }
-  .layout-menu-left{
-    background: #464c5b;
-  }
-  .layout-header{
-    height: 60px;
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  }
-  .layout-logo-left{
-    width: 90%;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    margin: 15px auto;
-  }
-  .layout-ceiling-main a{
-    color: #9ba7b5;
-  }
-  .layout-hide-text .layout-text{
-    display: none;
-  }
-  .ivu-col{
-    transition: width .2s ease-in-out;
-  }
+.layout-nav {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.logo {
+  float: left;
+  font-size: 24px;
+}
+
+.logout.ivu-menu-item {
+  float: right;
+}
+
+.main-menu {
+  display: inline-block;
+  float: left;
+  margin-left: 6em;
+}
+
+.main {
+  width: 100%;
+  position: relative;
+}
+
+.left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.right {
+  position: relative;
+  padding-bottom: 60px;
+}
+
+.right.has-side {
+  margin-left: 240px;
+}
+
+.layout-content {
+  padding: 10px;
+}
+
+.layout-copy {
+  text-align: center;
+  padding: 10px 0 20px;
+  color: #9ea7b4;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #eee;
+}
+
+.logout span.out {
+  display: none;
+}
+
+.logout:hover span.out {
+  display: inline-block;
+}
+
+.logout:hover span.user {
+  font-size: .5em;
+}
 </style>

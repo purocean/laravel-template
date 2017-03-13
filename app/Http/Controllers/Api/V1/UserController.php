@@ -11,14 +11,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
  */
 class UserController extends Controller
 {
-    /**
-     * @Get("/")
-     */
-    public function index()
-    {
-        return '尼玛';
-    }
-
     public function login(Request $request)
     {
         $username = $request->json('username');
@@ -59,10 +51,7 @@ class UserController extends Controller
                 $perms = array_column($role->perms->toArray(), 'display_name', 'name');
             }
 
-            return $this->ajax('ok', '获取成功', [
-                'roles' => $roles,
-                'perms' => $perms,
-            ]);
+            return $this->ajax('ok', '获取成功', compact('roles', 'perms'));
         } else {
             return $this->errorInternal('获取用户失败');
         }

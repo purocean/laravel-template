@@ -40,15 +40,13 @@ class AddRole extends Command
     {
         $role = new Role();
 
-        $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-
         $name = $this->argument('name');
         $displayName = $this->argument('displayName') ?: $name;
         $description = $this->argument('description') ?: $name;
 
         $role->name = $name;
-        $role->display_name = $isWindows ? mb_convert_encoding($displayName, 'UTF-8', 'GBK') : $displayName;
-        $role->description = $isWindows ? mb_convert_encoding($description, 'UTF-8', 'GBK') : $description;
+        $role->display_name = $displayName;
+        $role->description = $description;
 
         $role->saveOrFail();
 
