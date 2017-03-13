@@ -25,8 +25,10 @@ $api->version('v1', function ($api) {
         'namespace' => 'App\Http\Controllers\Api\V1',
         'middleware' => ['api.auth', 'jwt.refresh']
     ], function ($api) {
+        // 用户
         $api->get('/users/items', 'UserController@items');
 
+        // 部门
         $api->post('/departments/sync', 'DepartmentController@sync');
         $api->get('/departments/list', 'DepartmentController@list');
     });

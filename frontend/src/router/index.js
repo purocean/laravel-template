@@ -6,6 +6,7 @@ import Err from '@/desktop/Error'
 import Login from '@/desktop/Login.vue'
 import Home from '@/desktop/Home.vue'
 import Users from '@/desktop/Users.vue'
+import Departments from '@/desktop/Departments.vue'
 
 import 'iview/dist/styles/iview.css'
 
@@ -18,6 +19,7 @@ const routes = [
   {path: '/', name: '/', redirect: '/users'},
   {path: '/home', name: 'home', component: Home},
   {path: '/users', name: 'users', component: Users},
+  {path: '/departments', name: 'departments', component: Departments},
   {path: '/login', name: 'login', component: Login},
   {path: '/error', name: 'error', component: Err},
 ]
