@@ -33,7 +33,7 @@ export default {
         },
         {
           title: '更新时间',
-          key: 'created_at',
+          key: 'updated_at',
         }
       ],
       syncing: false,

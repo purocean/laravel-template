@@ -15,7 +15,10 @@ class DepartmentController extends Controller
             Department::truncate();
 
             if (Department::insert(array_map(function ($row) {
-                return array_merge($row, ['created_at' => date("Y-m-d H:i:s")]);
+                return array_merge($row, [
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
             }, $departments))) {
                 return $this->ajax('ok', '同步数据成功');
             } else {

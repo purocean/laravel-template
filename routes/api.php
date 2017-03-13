@@ -27,6 +27,8 @@ $api->version('v1', function ($api) {
     ], function ($api) {
         // 用户
         $api->get('/users/items', 'UserController@items');
+        $api->get('/users/list', 'UserController@list');
+        $api->post('/users/sync', 'UserController@sync');
 
         // 部门
         $api->post('/departments/sync', 'DepartmentController@sync');

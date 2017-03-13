@@ -43,7 +43,7 @@ class AddUser extends Command
 
         $username = $this->argument('username');
         $password = $this->argument('password');
-        $email = $this->argument('email') ?: str_random(10).'@'.str_random(4).'.com';
+        $email = $this->argument('email');
         $name = $this->argument('name') ?: 'new_user_'.str_random(4);
         $rolename = $this->argument('rolename');
 
@@ -51,6 +51,8 @@ class AddUser extends Command
         $user->password = bcrypt($password);
         $user->name = $name;
         $user->email = $email;
+        $user->departments = '{}';
+        $user->info = '{}';
 
         $user->saveOrFail();
 
