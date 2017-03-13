@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 use App\User;
+use App\Department;
 
 class SyncUserFromQywx implements ShouldQueue
 {
@@ -31,6 +32,7 @@ class SyncUserFromQywx implements ShouldQueue
      */
     public function handle()
     {
+        Department::sync();
         User::sync();
     }
 }

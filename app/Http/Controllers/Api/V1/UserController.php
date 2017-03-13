@@ -63,7 +63,7 @@ class UserController extends Controller
     {
         dispatch(new SyncUserFromQywx);
 
-        return $this->ajax('ok', "已经开始同步用户，请稍后刷新页面查看同步结果");
+        return $this->ajax('ok', "已经开始同步，请稍后刷新页面查看同步结果");
     }
 
     public function list()

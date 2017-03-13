@@ -6,27 +6,15 @@ use Illuminate\Http\Request;
 use Qywx;
 use App\Http\Controllers\Controller;
 use App\Department;
+use App\Jobs\SyncUserFromQywx;
 
 class DepartmentController extends Controller
 {
     public function sync()
     {
-        if ($departments = Qywx::getDepartments(config('qywx')['rootid'])) {
-            Department::truncate();
+        dispatch(new SyncUserFromQywx);
 
-            if (Department::insert(array_map(function ($row) {
-                return array_merge($row, [
-                    'created_at' => date("Y-m-d H:i:s"),
-                    'updated_at' => date("Y-m-d H:i:s")
-                ]);
-            }, $departments))) {
-                return $this->ajax('ok', '同步数据成功');
-            } else {
-                return $this->ajax('error', '同步数据失败');
-            }
-        } else {
-            return $this->ajax('error', '无法从企业号获取部门');
-        }
+        return $this->ajax('ok', "已经开始同步，请稍后刷新页面查看同步结果");
     }
 
     public function list()
