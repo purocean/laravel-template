@@ -1,11 +1,11 @@
 <template>
   <Layout class="departments" activeNav="/departments" :side="side" activeSide="/departments">
     <Card>
-      <Crud ref="crud" resource="departments" :columns="tableColumns">
+      <DataTable ref="dataTable" resource="departments" :columns="tableColumns">
         <div slot="action">
           <Button :loading="syncing" type="primary" @click.native="sync()">从企业号同步</Button>
         </div>
-      </Crud>
+      </DataTable>
     </Card>
   </Layout>
 </template>
@@ -13,11 +13,11 @@
 <script>
 import Http from '@/utils/Http'
 import Layout from '@/layouts/Desktop'
-import Crud from '@/components/Crud'
+import DataTable from '@/components/DataTable'
 
 export default {
   name: 'departments',
-  components: { Layout, Crud },
+  components: { Layout, DataTable },
   data () {
     return {
       side: [{name: '/departments', text: '部门管理', icon: 'person-stalker'}],
@@ -51,7 +51,7 @@ export default {
 
         this.syncing = false
 
-        this.$refs.crud.loadData(1)
+        this.$refs.dataTable.loadData(1)
       })
     }
   }

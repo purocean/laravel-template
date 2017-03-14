@@ -33,7 +33,7 @@ import Http from '@/utils/Http'
 import SpinWrapper from '@/components/SpinWrapper'
 
 export default {
-  name: 'crud',
+  name: 'data-table',
   components: { SpinWrapper },
   props: ['resource', 'columns'],
   mounted () {

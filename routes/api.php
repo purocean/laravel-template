@@ -18,14 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 $api = app('Dingo\Api\Routing\Router');
-$api->version('v1', function ($api) {
-    $api->post('/login', 'App\Http\Controllers\Api\V1\UserController@login');
+$api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
+    $api->get('/qrcode', 'UserController@qrcode');
+    $api->get('/wxcode', 'WechatController@code');
+    $api->post('/login', 'UserController@login');
+    $api->post('/qrlogin', 'UserController@qrlogin');
+    $api->post('/codelogin', 'UserController@codelogin');
 
-    $api->group([
-        'namespace' => 'App\Http\Controllers\Api\V1',
-        'middleware' => ['api.auth', 'jwt.refresh']
-    ], function ($api) {
+    $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
         // 用户
+        $api->post('/confirmqrlogin', 'UserController@confirmqrlogin');
         $api->get('/users/items', 'UserController@items');
         $api->get('/users/list', 'UserController@list');
         $api->post('/users/sync', 'UserController@sync');

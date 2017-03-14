@@ -41,15 +41,12 @@ export default {
           Auth.setRoles({})
           Auth.setUser('')
           location.reload()
-        } else if (response.status === 404) {
-          alert('404 Not Found!')
-        } else if (401 < response.status && response.status < 500) {
+        } else if (response.status === 403) {
           Auth.setPermissions({})
           Auth.setRoles({})
-          alert('Forbidden!')
-          location.reload()
-        } else if (500 <= response.status && response.status < 600) {
-          alert('Server error.')
+          alert('无权限访问资源')
+        } else {
+          alert(`Error: ${response.status}`)
         }
 
         cbError(response)

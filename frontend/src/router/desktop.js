@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Auth from '@/auth/Auth'
 import Err from '@/desktop/Error'
 import Login from '@/desktop/Login.vue'
-import Home from '@/desktop/Home.vue'
 import Users from '@/desktop/Users.vue'
 import Departments from '@/desktop/Departments.vue'
 
@@ -17,7 +16,6 @@ const allowList = ['/', '/error', '/login']
 
 const routes = [
   {path: '/', name: '/', redirect: '/users'},
-  {path: '/home', name: 'home', component: Home},
   {path: '/users', name: 'users', component: Users},
   {path: '/departments', name: 'departments', component: Departments},
   {path: '/login', name: 'login', component: Login},
@@ -45,7 +43,7 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else {
-    next({name: 'login', query: {next: from.path}})
+    next({name: 'login', query: {next: to.fullPath}})
   }
 })
 

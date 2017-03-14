@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "iview": "^2.0.0-rc.2",
+    "jr-qrcode": "^1.0.5",
     "vue": "^2.2.2",
     "vue-router": "^2.2.0",
     "whatwg-fetch": "^2.0.3"

@@ -79,6 +79,10 @@ class User extends Authenticatable implements JWTSubject
             $user->info = json_encode($user);
 
             $user->save() and ++$count;
+
+            // 分配默认角色
+            $role = Role::where(['name' => 'user'])->firstOrFail();
+            $user->attachRole($role);
         }
 
         return $count;

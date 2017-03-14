@@ -11,8 +11,20 @@
     </Menu>
     <Card class="login-card">
       <h1>登录</h1>
-      <a class="login-switcher" href="">二维码登录</a>
-      <iForm ref="login-form" :model="formInline" :rules="ruleInline" class="login-form">
+      <a class="login-switcher" @click="switchLogin()">
+        <span v-show="useQr">账号密码登录</span>
+        <span v-show="!useQr">二维码登录</span>
+      </a>
+      <div v-show="useQr" class="qrlogin">
+        <h4>{{ qrStatus }}</h4>
+        <img :src="qrImg" />
+      </div>
+      <iForm
+        v-show="!useQr"
+        ref="login-form"
+        :model="formInline"
+        :rules="ruleInline"
+        class="login-form">
         <FormItem prop="username">
           <Input type="text" v-model="formInline.username" placeholder="Username" @keyup.enter.native="handleSubmit()">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
@@ -34,12 +46,17 @@
 <script>
 import Http from '@/utils/Http'
 import Auth from '@/auth/Auth'
+import QRCode from 'jr-qrcode'
 
 export default {
   name: 'login',
   data () {
     return {
       loading: false,
+      useQr: true,
+      qrImg: '',
+      qrStatus: '请稍后……',
+      qrNonce: '',
       formInline: {
         username: '',
         password: ''
@@ -59,6 +76,8 @@ export default {
     Auth.setPermissions({})
     Auth.setRoles({})
     Auth.setUser('')
+
+    this.updateQr()
   },
   methods: {
     handleSubmit () {
@@ -71,10 +90,7 @@ export default {
             body: this.formInline
           }, result => {
             if (result.status === 'ok') {
-              Auth.setUser(result.data.user)
-              Auth.setAccessToken(result.data.token)
-              this.$router.replace(this.$route.query.next || '/')
-
+              this.success(result.data)
               this.$Message.success(result.message)
             } else {
               this.$Message.error(result.message)
@@ -85,6 +101,48 @@ export default {
         }
       })
     },
+    switchLogin () {
+      this.useQr = !this.useQr
+    },
+    success (data) {
+      Auth.setUser(data.user)
+      Auth.setAccessToken(data.token)
+      this.$router.replace(this.$route.query.next || '/')
+    },
+    updateQr () {
+      Http.fetch('/api/qrcode', {}, result => {
+        if (result.status === 'ok') {
+          this.qrNonce = result.data.nonce
+          this.qrImg = QRCode.getQrBase64(result.data.url)
+          this.qrStatus = '请扫码'
+
+          let timer = setInterval(() => {
+            if (this.useQr) {
+              Http.fetch(
+                '/api/qrlogin',
+                {method: 'post', body: {nonce: this.qrNonce}},
+                result => {
+                  if (result.status === 'ok') {
+                    this.success(result.data)
+                    this.$Message.success(result.message)
+                    window.clearInterval(timer)
+                  } else {
+                    this.qrStatus = result.message
+                  }
+                }
+              )
+            }
+          }, 3000)
+
+          this.useQr && window.setTimeout(() => {
+            window.clearInterval(timer)
+            this.updateQr()
+          }, result.data.expires * 1000)
+        } else {
+          this.$Message.error(result.message)
+        }
+      })
+    }
   }
 }
 </script>
@@ -121,5 +179,9 @@ export default {
 
 .login-form {
   margin-top: 20px;
+}
+
+.qrlogin {
+  text-align: center;
 }
 </style>

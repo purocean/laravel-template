@@ -29,5 +29,9 @@ export default {
   bottom: 0;
   left: 0;
 }
+
+.spin .ivu-spin-fix {
+  background-color: rgba(255, 255, 255, .7);
+}
 </style>
 
