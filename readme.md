@@ -1,40 +1,70 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+Laravel 5.4 RESTful 应用模板，包含企业号同步联系人，扫码登录，使用 Vue2 iView 做前端
+===============================
+[![composer.lock](https://poser.pugx.org/purocean/laravel-template/composerlock)](https://packagist.org/packages/purocean/laravel-template)
+[![Latest Stable Version](https://poser.pugx.org/purocean/laravel-template/v/stable)](https://packagist.org/packages/purocean/laravel-template)
+[![Total Downloads](https://poser.pugx.org/purocean/laravel-template/downloads)](https://packagist.org/packages/purocean/laravel-template)
+[![License](https://poser.pugx.org/purocean/laravel-template/license)](https://packagist.org/packages/purocean/laravel-template)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+特性
+-------------------
++ [x] 微信企业号同步联系人
++ [x] 扫码登录
++ [x] Vue2 iView 前端界面
++ [ ] 文件上传处理
++ [x] 微信 jssdk
++ [x] RESTful
 
-## About Laravel
+建议环境
+-------------------
++ [x] PHP 7.0+
++ [x] Composer
++ [x] Redis
++ [x] Mysql 5.7
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+安装
+-------------------
+```bash
+composer install
+cp .env.example .env
+vim ./.env # 配置数据库，企业微信，缓存等信息
+php ./artisan key:generate
+php ./artisan jwt:secret
+php ./artisan migrate # 迁移表结构
+php ./artisan rbac:resetpwd suadmin <password> # 更改超级管理员密码
+php ./artisan serve --host=192.168.1.108 -t=@application/web # 运行开发服务器，IP 为本机局域网 IP，以便手机访问（扫码）
+composer run-script make-api-doc # 生成接口文档
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+cd frontend
+npm install # 安装 nodejs 依赖
+cp ./config/index.js.example ./config/index.js
+vim ./config/index.js # 修改本机后台服务器 IP 端口
+npm run dev # 运行开发服务器
+npm run build # 前端打包
+```
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+注意事项
+-------------------
++ 若微信调试不通过，可在 /storage/app/qywx/qywx.log 查看日志，删除缓存文件
++ 请使用PHP7 以及开启 Opcache 提高性能
 
-## Learning Laravel
+测试
+-------------------
+```bash
+composer exec phpunit
+```
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+链接
+-------------------
++ [Laravel - The PHP Framework For Web Artisans](https://laravel.com/)
++ [Laravel 5.4 中文文档](http://d.laravel-china.org/docs/5.4)
++ [vue.js](https://cn.vuejs.org/)
++ [iView - 一套高质量的UI组件库](https://www.iviewui.com/)
++ [dingoapi](https://github.com/dingo/api)
++ [jwt-auth](https://github.com/tymondesigns/jwt-auth)
++ [ENTRUST](https://github.com/Zizaco/entrust)
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+截图
+-------------------
+![login_1](./screenshots/login_1.png "登录")
+![login_2](./screenshots/login_2.png "登录")
+![user](./screenshots/user.png "用户管理")
