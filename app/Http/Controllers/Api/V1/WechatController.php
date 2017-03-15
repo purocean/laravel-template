@@ -14,7 +14,7 @@ class WechatController extends Controller
             $next = $request->input('next');
             $code = $request->input('code');
 
-            return redirect("/app.html#/login/?code={$code}&next=" . urlencode($next));
+            return redirect("/mobile.html#/login/?code={$code}&next=" . urlencode($next));
         } else {
             return redirect(Qywx::getJumpOAuthUrl(url()->full()));
         }

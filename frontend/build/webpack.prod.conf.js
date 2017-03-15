@@ -66,9 +66,9 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
-        ? 'app.html'
+        ? 'mobile.html'
         : config.build.mobile,
-      template: 'app.html',
+      template: 'mobile.html',
       inject: true,
       chunks: ['manifest', 'vendor', 'mobile'],
       minify: {

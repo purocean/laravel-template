@@ -125,7 +125,7 @@ class AuthController extends Controller
 
         return $this->ajax('ok', '获取成功', [
             'nonce' => $nonce,
-            'url' => url('/app.html#/qrlogin?nonce=' . urlencode($nonce)),
+            'url' => url('/mobile.html#/qrlogin?nonce=' . urlencode($nonce)),
             'expires' => 60,
         ]);
     }
