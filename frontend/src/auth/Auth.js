@@ -80,7 +80,31 @@ const can = function (item, callback) {
   }
 }
 
+const requireAuth = function (allowList, to, from, next) {
+  if (checkPermission(allowList, to.path)) {
+    next()
+    return
+  }
+
+  if (isLogin()) {
+    if (can(to.path)) {
+      next()
+    } else {
+      can(to.path, allow => {
+        if (allow) {
+          next()
+        } else {
+          next({name: 'error', query: {code: 403, message: '无权访问资源', from: from.fullPath}})
+        }
+      })
+    }
+  } else {
+    next({name: 'login', query: {next: to.fullPath}})
+  }
+}
+
 export default {
+  requireAuth,
   setUser,
   getUser,
   setAccessToken,

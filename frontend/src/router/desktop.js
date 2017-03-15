@@ -25,26 +25,7 @@ const routes = [
 const router = new Router({ routes })
 
 router.beforeEach((to, from, next) => {
-  if (Auth.checkPermission(allowList, to.path)) {
-    next()
-    return
-  }
-
-  if (Auth.isLogin()) {
-    if (Auth.can(to.path)) {
-      next()
-    } else {
-      Auth.can(to.path, allow => {
-        if (allow) {
-          next()
-        } else {
-          next({name: 'error'})
-        }
-      })
-    }
-  } else {
-    next({name: 'login', query: {next: to.fullPath}})
-  }
+  Auth.requireAuth(allowList, to, from, next)
 })
 
 export default router

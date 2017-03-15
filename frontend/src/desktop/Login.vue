@@ -57,6 +57,8 @@ export default {
       qrImg: '',
       qrStatus: '请稍后……',
       qrNonce: '',
+      loginTimer: null,
+      codeTimer: null,
       formInline: {
         username: '',
         password: ''
@@ -78,6 +80,9 @@ export default {
     Auth.setUser('')
 
     this.updateQr()
+  },
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize)
   },
   methods: {
     handleSubmit () {
@@ -108,6 +113,8 @@ export default {
       Auth.setUser(data.user)
       Auth.setAccessToken(data.token)
       this.$router.replace(this.$route.query.next || '/')
+      this.loginTimer && window.clearInterval(this.loginTimer)
+      this.codeTimer && window.clearInterval(this.codeTimer)
     },
     updateQr () {
       Http.fetch('/api/qrcode', {}, result => {
@@ -116,7 +123,7 @@ export default {
           this.qrImg = QRCode.getQrBase64(result.data.url)
           this.qrStatus = '请扫码'
 
-          let timer = setInterval(() => {
+          this.loginTimer = setInterval(() => {
             if (this.useQr) {
               Http.fetch(
                 '/api/qrlogin',
@@ -125,7 +132,6 @@ export default {
                   if (result.status === 'ok') {
                     this.success(result.data)
                     this.$Message.success(result.message)
-                    window.clearInterval(timer)
                   } else {
                     this.qrStatus = result.message
                   }
@@ -134,10 +140,12 @@ export default {
             }
           }, 3000)
 
-          this.useQr && window.setTimeout(() => {
-            window.clearInterval(timer)
-            this.updateQr()
-          }, result.data.expires * 1000)
+          if (this.userQr) {
+            this.codeTimer = window.setTimeout(() => {
+              this.loginTimer && window.clearInterval(this.loginTimer)
+              this.updateQr()
+            }, result.data.expires * 1000)
+          }
         } else {
           this.$Message.error(result.message)
         }
