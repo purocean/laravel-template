@@ -140,12 +140,10 @@ export default {
             }
           }, 3000)
 
-          if (this.userQr) {
-            this.codeTimer = window.setTimeout(() => {
-              this.loginTimer && window.clearInterval(this.loginTimer)
-              this.updateQr()
-            }, result.data.expires * 1000)
-          }
+          this.codeTimer = window.setTimeout(() => {
+            this.loginTimer && window.clearInterval(this.loginTimer)
+            this.updateQr()
+          }, result.data.expires * 1000)
         } else {
           this.$Message.error(result.message)
         }
