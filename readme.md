@@ -32,6 +32,7 @@ php ./artisan jwt:secret
 php ./artisan migrate # 迁移表结构
 php ./artisan rbac:resetpwd suadmin <password> # 更改超级管理员密码
 php ./artisan serve --host=192.168.1.108 -t=@application/web # 运行开发服务器，IP 为本机局域网 IP，以便手机访问（扫码）
+php ./artisan queue:work # 开启任务队列进程
 composer run-script make-api-doc # 生成接口文档
 
 cd frontend
@@ -53,6 +54,7 @@ composer exec phpunit
 + 若微信调试不通过，可在 /storage/app/qywx/qywx.log 查看日志，删除缓存文件
 + 请使用PHP7 以及开启 OPcache 提高性能
 + storage 及其目录需要有写入权限
++ 任务队列默认是 sync 方式，可在 .env 文件中修改为 redis 方式
 
 链接
 -------------------
