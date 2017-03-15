@@ -53,7 +53,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         : config.build.index,
       template: 'index.html',
       inject: true,
-      chunks: ['vendor', 'desktop'],
+      chunks: ['manifest', 'vendor', 'desktop'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -70,7 +70,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         : config.build.mobile,
       template: 'app.html',
       inject: true,
-      chunks: ['vendor', 'mobile'],
+      chunks: ['manifest', 'vendor', 'mobile'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
