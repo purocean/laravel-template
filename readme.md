@@ -41,6 +41,8 @@ cp ./config/index.js.example ./config/index.js
 vim ./config/index.js # 修改本机后台服务器 IP 端口
 npm run dev # 运行开发服务器
 npm run build # 前端打包
+npm run dist # 把打包的文件复制到 public 目录
+# npm run dist-win # 把打包的文件复制到 public 目录，windows 平台使用
 ```
 
 测试
