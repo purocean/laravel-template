@@ -24,8 +24,8 @@ export default {
     this.login(false)
   },
   methods: {
-    login (login = true) {
-      if (login) {
+    login (confirmed = true) {
+      if (confirmed) {
         this.message = '请稍后……'
         this.submit = true
       }
@@ -36,7 +36,7 @@ export default {
           method: 'post',
           body: {
             nonce: this.$route.query.nonce,
-            login
+            login: confirmed
           }
         },
         result => {
@@ -45,7 +45,7 @@ export default {
             window.WeixinJSBridge.invoke('closeWindow')
           }
 
-          login && window.WeixinJSBridge.invoke('closeWindow')
+          confirmed && window.WeixinJSBridge.invoke('closeWindow')
         }
       )
     }
