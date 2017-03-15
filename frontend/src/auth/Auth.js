@@ -68,7 +68,7 @@ const checkPermission = function (permissions, permission) {
  */
 const can = function (item, callback) {
   if (callback) {
-    Http.fetch('/api/users/items', {}, result => {
+    Http.fetch('/api/limits', {}, result => {
       setRoles(result.data.roles)
       setPermissions(result.data.perms)
       callback(checkRole(item) || checkPermission(getPermissions(), item))

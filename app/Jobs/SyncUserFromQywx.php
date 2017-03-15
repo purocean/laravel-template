@@ -15,14 +15,17 @@ class SyncUserFromQywx implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $update = true;
+
     /**
      * Create a new job instance.
+     * @param  $update  是否是增量更新
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($update = true)
     {
-        //
+        $this->update = $update;
     }
 
     /**
@@ -32,7 +35,7 @@ class SyncUserFromQywx implements ShouldQueue
      */
     public function handle()
     {
-        Department::sync();
-        User::sync();
+        Department::sync($this->update);
+        User::sync($this->update);
     }
 }

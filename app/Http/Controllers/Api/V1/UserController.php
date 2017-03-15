@@ -44,7 +44,7 @@ class UserController extends Controller
         }
     }
 
-    public function items()
+    public function limits()
     {
         if ($user = \Auth::user()) {
             $roles = [];
@@ -124,11 +124,13 @@ class UserController extends Controller
         }
 
         if (! $username = Qywx::getUserId($code)) {
-            return $this->ajax('error', '不属于企业号，请联系管理员');
+            return $this->ajax('error', '不属于企业号，请联系管理员，或稍后再试');
         }
 
         if (! $loginResult = $this->_loginByUsername($username)) {
-             return $this->response->errorInternal('无法生成 Token');
+            // 可能数据库数据数据，尝试同步
+            dispatch(new SyncUserFromQywx(true));
+            return $this->ajax('error', '或许您是新加入的成员，请耐心等待系统同步数据，十分钟后再来吧 :)');
         }
 
         return $this->ajax('ok', '登录成功', [

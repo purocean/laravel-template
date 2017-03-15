@@ -19,21 +19,29 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
+    // 无需登录即可操作
     $api->get('/qrcode', 'UserController@qrcode');
     $api->get('/wxcode', 'WechatController@code');
     $api->post('/login', 'UserController@login');
     $api->post('/qrlogin', 'UserController@qrlogin');
     $api->post('/codelogin', 'UserController@codelogin');
 
+    // 需要登录才能操作
     $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
-        // 用户
+        // 无需特殊权限
         $api->post('/confirmqrlogin', 'UserController@confirmqrlogin');
-        $api->get('/users/items', 'UserController@items');
-        $api->get('/users/list', 'UserController@list');
-        $api->post('/users/sync', 'UserController@sync');
+        $api->get('/limits', 'UserController@limits');
+
+        // 用户
+        $api->group(['middleware' => ['can.path:/users/*']], function ($api) {
+            $api->get('/users/list', 'UserController@list');
+            $api->post('/users/sync', 'UserController@sync');
+        });
 
         // 部门
-        $api->post('/departments/sync', 'DepartmentController@sync');
-        $api->get('/departments/list', 'DepartmentController@list');
+        $api->group(['middleware' => ['can.path:/departments/*']], function ($api) {
+            $api->post('/departments/sync', 'DepartmentController@sync');
+            $api->get('/departments/list', 'DepartmentController@list');
+        });
     });
 });

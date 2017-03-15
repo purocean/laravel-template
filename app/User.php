@@ -53,7 +53,7 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public static function sync()
+    public static function sync($update = true)
     {
         $departments = Department::select('id', 'name')->get()->keyBy('id')->toArray();
         $members = array_column(
@@ -64,25 +64,41 @@ class User extends Authenticatable implements JWTSubject
 
         $count = 0;
         foreach ($members as $member) {
-            if (!$user = self::where(['username' => $member['userid']])->first()) {
+            $isNew = false;
+            if (! $user = self::where(['username' => $member['userid']])->first()) {
                 $user = new self;
+                $isNew = true;
+            } elseif ($update) {
+                continue; // 如果是增量更新就不修改原来的记录了
             }
 
-            $user->username = $member['userid'];
-            $user->name = $member['name'];
-            $user->password = bcrypt(str_random(8));
-            $user->email = $member['email'] ?? null;
-            $user->mobile = $member['mobile'] ?? '';
-            $user->departments = json_encode(array_map(function ($departmentId) use ($departments) {
-                return [$departmentId => $departments[$departmentId]];
-            }, $member['department']));
-            $user->info = json_encode($user);
+            if ($isNew) {
+                $user->username = $member['userid'];
+                $user->name = $member['name'];
+                $user->password = bcrypt(str_random(8));
+                $user->email = $member['email'] ?? null;
+                $user->mobile = $member['mobile'] ?? '';
+                $user->departments = json_encode(array_map(function ($departmentId) use ($departments) {
+                    return [$departmentId => $departments[$departmentId]];
+                }, $member['department']));
+                $user->info = json_encode($user);
 
-            $user->save() and ++$count;
+                $user->save() and ++$count;
 
-            // 分配默认角色
-            $role = Role::where(['name' => 'user'])->firstOrFail();
-            $user->attachRole($role);
+                // 是新用户就分配默认角色
+                $role = Role::where(['name' => 'user'])->firstOrFail();
+                $user->attachRole($role);
+            } else {
+                $user->name = $member['name'];
+                $user->email = $member['email'] ?? null;
+                $user->mobile = $member['mobile'] ?? '';
+                $user->departments = json_encode(array_map(function ($departmentId) use ($departments) {
+                    return [$departmentId => $departments[$departmentId]];
+                }, $member['department']));
+                $user->info = json_encode($user);
+
+                $user->save() and ++$count;
+            }
         }
 
         return $count;
