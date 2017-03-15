@@ -46,6 +46,9 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
+        ],
+        "make-api-doc": [
+            "php artisan api:docs --output-file api.md"
         ]
     },
     "config": {
