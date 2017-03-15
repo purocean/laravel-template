@@ -42,16 +42,17 @@ npm run dev # 运行开发服务器
 npm run build # 前端打包
 ```
 
-注意事项
--------------------
-+ 若微信调试不通过，可在 /storage/app/qywx/qywx.log 查看日志，删除缓存文件
-+ 请使用PHP7 以及开启 Opcache 提高性能
-
 测试
 -------------------
 ```bash
 composer exec phpunit
 ```
+
+注意事项
+-------------------
++ 若微信调试不通过，可在 /storage/app/qywx/qywx.log 查看日志，删除缓存文件
++ 请使用PHP7 以及开启 OPcache 提高性能
++ storage 及其目录需要有写入权限
 
 链接
 -------------------
