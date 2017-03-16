@@ -35,13 +35,13 @@ import SpinWrapper from '@/components/SpinWrapper'
 export default {
   name: 'data-table',
   components: { SpinWrapper },
-  props: ['resource', 'columns'],
+  props: ['resource', 'columns', 'context'],
   mounted () {
     this.loadData(1)
   },
   data () {
     return {
-      self: this,
+      self: this.context || this,
       tableData: {},
       loading: true,
     }
