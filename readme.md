@@ -48,7 +48,8 @@ npm run dist # 把打包的文件复制到 public 目录
 测试
 -------------------
 ```bash
-composer exec phpunit
+php ./artisan config:clear # 清除配置缓存
+composer exec phpunit # 开始测试
 ```
 
 注意事项
@@ -57,6 +58,7 @@ composer exec phpunit
 + 请使用PHP7 以及开启 OPcache 提高性能
 + storage 及其目录需要有写入权限
 + 任务队列默认是 sync 方式，可在 .env 文件中修改为 redis 方式
++ 如非必要，队列不要用 root 权限执行
 
 链接
 -------------------

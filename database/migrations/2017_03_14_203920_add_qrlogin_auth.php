@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class AddQrloginAuth extends Migration
 {
@@ -13,11 +14,11 @@ class AddQrloginAuth extends Migration
      */
     public function up()
     {
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addperm /qrlogin/*');
+        Artisan::call('rbac:addperm', ['name' => '/qrlogin/*']);
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachperm suadmin /qrlogin/* ');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachperm admin /qrlogin/* ');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachperm user /qrlogin/* ');
+        Artisan::call('rbac:attachperm', ['rolename' => 'suadmin', 'permname' => '/qrlogin/*']);
+        Artisan::call('rbac:attachperm', ['rolename' => 'admin', 'permname' => '/qrlogin/*']);
+        Artisan::call('rbac:attachperm', ['rolename' => 'user', 'permname' => '/qrlogin/*']);
     }
 
     /**
@@ -27,10 +28,10 @@ class AddQrloginAuth extends Migration
      */
     public function down()
     {
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachperm user /qrlogin/* ');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachperm admin /qrlogin/* ');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachperm suadmin /qrlogin/* ');
+        Artisan::call('rbac:detachperm', ['rolename' => 'user', 'permname' => '/qrlogin/*']);
+        Artisan::call('rbac:detachperm', ['rolename' => 'admin', 'permname' => '/qrlogin/*']);
+        Artisan::call('rbac:detachperm', ['rolename' => 'suadmin', 'permname' => '/qrlogin/*']);
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:removeperm /qrlogin/*');
+        Artisan::call('rbac:removeperm', ['name' => '/qrlogin/*']);
     }
 }

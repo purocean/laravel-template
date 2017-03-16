@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class AddUserAuth extends Migration
 {
@@ -13,10 +14,10 @@ class AddUserAuth extends Migration
      */
     public function up()
     {
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addperm /users/*');
+        Artisan::call('rbac:addperm', ['name' => '/users/*']);
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachperm suadmin /users/* ');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:attachperm admin /users/* ');
+        Artisan::call('rbac:attachperm', ['rolename' => 'suadmin', 'permname' => '/users/*']);
+        Artisan::call('rbac:attachperm', ['rolename' => 'admin', 'permname' => '/users/*']);
     }
 
     /**
@@ -26,9 +27,9 @@ class AddUserAuth extends Migration
      */
     public function down()
     {
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachperm admin /users/* ');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachperm suadmin /users/* ');
+        Artisan::call('rbac:detachperm', ['rolename' => 'admin', 'permname' => '/users/*']);
+        Artisan::call('rbac:detachperm', ['rolename' => 'suadmin', 'permname' => '/users/*']);
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:removeperm /users/*');
+        Artisan::call('rbac:removeperm', ['name' => '/users/*']);
     }
 }

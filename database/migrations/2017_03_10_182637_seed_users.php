@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class SeedUsers extends Migration
 {
@@ -13,13 +14,13 @@ class SeedUsers extends Migration
      */
     public function up()
     {
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole suadmin "超级管理员"');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole admin "管理员"');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:addrole user "普通用户"');
+        Artisan::call('rbac:addrole', ['name' => 'suadmin', 'displayName' => '超级管理员']);
+        Artisan::call('rbac:addrole', ['name' => 'admin', 'displayName' => '管理员']);
+        Artisan::call('rbac:addrole', ['name' => 'user', 'displayName' => '普通用户']);
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:adduser suadmin ' . str_random(10) . ' suadmin "超级管理员"');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:adduser admin ' . str_random(10) . ' suadmin "管理员"');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:adduser demo ' . str_random(10) . ' suadmin "示例用户"');
+        Artisan::call('rbac:adduser', ['username' => 'suadmin', 'password' => str_random(10), 'rolename' => 'suadmin', 'name' => '超级管理员']);
+        Artisan::call('rbac:adduser', ['username' => 'admin', 'password' => str_random(10), 'rolename' => 'suadmin', 'name' => '管理员']);
+        Artisan::call('rbac:adduser', ['username' => 'demo', 'password' => str_random(10), 'rolename' => 'suadmin', 'name' => '示例用户']);
     }
 
     /**
@@ -29,13 +30,13 @@ class SeedUsers extends Migration
      */
     public function down()
     {
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachrole demo user');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachrole admin admin');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:detachrole suadmin suadmin');
+        Artisan::call('rbac:detachrole', ['username' => 'demo', 'rolename' => 'user']);
+        Artisan::call('rbac:detachrole', ['username' => 'admin', 'rolename' => 'admin']);
+        Artisan::call('rbac:detachrole', ['username' => 'suadmin', 'rolename' => 'suadmin']);
 
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:removerole user');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:removerole admin');
-        passthru('php "' . $_SERVER['PHP_SELF'] . '" rbac:removerole suadmin');
+        Artisan::call('rbac:removerole', ['name' => 'user']);
+        Artisan::call('rbac:removerole', ['name' => 'admin']);
+        Artisan::call('rbac:removerole', ['name' => 'suadmin']);
 
         DB::table('users')->where(['username' => ['suadmin', 'admin', 'demo']])->delete();
     }
