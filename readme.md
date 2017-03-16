@@ -31,7 +31,7 @@ php ./artisan key:generate
 php ./artisan jwt:secret
 php ./artisan migrate # 迁移表结构
 php ./artisan rbac:resetpwd suadmin <password> # 更改超级管理员密码
-php ./artisan serve --host=192.168.1.108 -t=@application/web # 运行开发服务器，IP 为本机局域网 IP，以便手机访问（扫码）
+php ./artisan serve --host=192.168.1.108 # 运行开发服务器，IP 为本机局域网 IP，以便手机访问（扫码）
 php ./artisan queue:work # 开启任务队列进程
 composer run-script make-api-doc # 生成接口文档
 
