@@ -218,6 +218,54 @@ FORMAT: 1A
                 "code": 0
             }
 
+## 给用户分配角色 [POST /api/users/attachroles]
+
+
++ Request (application/json)
+    + Body
+
+            {
+                "username": "admin",
+                "rolenames": [
+                    "admin",
+                    "user"
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": null,
+                "errors": null,
+                "code": 0
+            }
+
+## 获取所有的角色列表 [GET /api/users/allroles]
+
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": [
+                    {
+                        "id": 1,
+                        "name": "suadmin",
+                        "display_name": "超级管理员",
+                        "description": "suadmin",
+                        "created_at": "2017-03-16 11:14:14",
+                        "updated_at": "2017-03-16 11:14:14"
+                    }
+                ],
+                "errors": null,
+                "code": 0
+            }
+
 # 部门管理 [/api/departments]
 部门管理
 

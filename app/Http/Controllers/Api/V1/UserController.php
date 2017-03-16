@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\SyncUserFromQywx;
 use App\User;
+use App\Role;
 
 /**
  * 用户
@@ -71,5 +72,65 @@ class UserController extends Controller
     public function list()
     {
         return $this->ajax('ok', '获取成功', User::paginate(15)->toArray());
+    }
+
+    /**
+     * 给用户分配角色
+     *
+     * @post("attachroles")
+     * @Request({"username": "admin", "rolenames": {"admin", "user"}})
+     * @Response(200, body={
+     *     "status": "ok|error",
+     *     "message": "...",
+     *     "data": null,
+     *     "errors":null,
+     *     "code":0
+     * })
+     */
+    public function attachRoles(Request $request)
+    {
+        $username = $request->json('username');
+        $rolenames = $request->json('rolenames');
+
+        $user = User::where(['username' => $username])->firstOrFail();
+
+        $user->roles()->sync([]);
+
+        try {
+            foreach ($rolenames as $rolename) {
+                $role = Role::where(['name' => $rolename])->firstOrFail();
+                $user->attachRole($role);
+            }
+        } catch (\Exception $e) {
+            return $this->ajax('error', '出现一点错误，角色名不存在');
+        }
+
+        return $this->ajax('ok', '操作成功');
+    }
+
+    /**
+     * 获取所有的角色列表
+     *
+     * @get("allroles")
+     * @Response(200, body={
+     *     "status": "ok|error",
+     *     "message": "...",
+     *     "data": {
+     *         {
+     *             "id": 1,
+     *             "name": "suadmin",
+     *             "display_name": "超级管理员",
+     *             "description": "suadmin",
+     *             "created_at": "2017-03-16 11:14:14",
+     *             "updated_at": "2017-03-16 11:14:14"
+     *         },
+     *     },
+     *     "errors":null,
+     *     "code":0
+     * })
+     */
+    public function allRoles()
+    {
+        return $this->ajax('ok', '获取成功', Role::get());
     }
 }
