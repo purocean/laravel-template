@@ -266,6 +266,28 @@ FORMAT: 1A
                 "code": 0
             }
 
+## 向某个用户发送微信消息 [POST /api/users/sendmessage]
+
+
++ Request (application/json)
+    + Body
+
+            {
+                "username": "testuser",
+                "message": "测试消息"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": null,
+                "errors": null,
+                "code": 0
+            }
+
 # 部门管理 [/api/departments]
 部门管理
 

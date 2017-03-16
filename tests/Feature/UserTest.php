@@ -39,7 +39,7 @@ class UserTest extends TestCase
         Queue::assertPushed(SyncUserFromQywx::class);
     }
 
-    public function testAllroles()
+    public function testAllRoles()
     {
         $this->getJson('/api/users/allroles')->assertStatus(401);
 
@@ -51,7 +51,7 @@ class UserTest extends TestCase
             ->assertJson(['status' => 'ok']);
     }
 
-    public function testAttachroles()
+    public function testAttachRoles()
     {
         $this->postJson('/api/users/attachroles')->assertStatus(401);
 
@@ -66,6 +66,27 @@ class UserTest extends TestCase
 
         $this->iam('useradmin')
             ->postJson('/api/users/attachroles', ['username' => 'usertest', 'rolenames' => ['admin', 'user']])
+            ->assertStatus(200)
+            ->assertJson(['status' => 'ok']);
+    }
+
+    public function testSendMessage()
+    {
+        $username = 'cscs'; // 在这里改成你的微信 userid 测试
+
+        $this->postJson('/api/users/sendmessage')->assertStatus(401);
+
+        $this->iam('usertest')->postJson('/api/users/sendmessage')->assertStatus(403);
+
+        $this->iam('useradmin')->getJson('/api/users/sendmessage')->assertStatus(405);
+
+        $this->iam('useradmin')
+            ->postJson('/api/users/sendmessage', ['username' => 'notExist', 'message' => '测试消息'])
+            ->assertStatus(200)
+            ->assertJson(['status' => 'error']);
+
+        $this->iam('useradmin')
+            ->postJson('/api/users/sendmessage', ['username' => $username, 'message' => '测试消息'])
             ->assertStatus(200)
             ->assertJson(['status' => 'ok']);
     }

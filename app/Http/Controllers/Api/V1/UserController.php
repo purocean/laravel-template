@@ -133,4 +133,29 @@ class UserController extends Controller
     {
         return $this->ajax('ok', '获取成功', Role::get());
     }
+
+    /**
+     * 向某个用户发送微信消息
+     *
+     * @post("sendmessage")
+     * @Request({"username": "testuser", "message": "测试消息"})
+     * @Response(200, body={
+     *     "status": "ok|error",
+     *     "message": "...",
+     *     "data": null,
+     *     "errors":null,
+     *     "code":0
+     * })
+     */
+    public function sendMessage(Request $request)
+    {
+        $username = $request->json('username');
+        $message = $request->json('message');
+
+        if (User::sendWxMsg($username, '管理员消息', $message)) {
+            return $this->ajax('ok', '发送消息成功');
+        }
+
+        return $this->ajax('error', '发送消息失败');
+    }
 }

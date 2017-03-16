@@ -34,6 +34,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
             $api->post('/users/sync', 'UserController@sync');
             $api->get('/users/allroles', 'UserController@allRoles');
             $api->post('/users/attachroles', 'UserController@attachRoles');
+            $api->post('/users/sendmessage', 'UserController@sendMessage');
         });
 
         // 部门

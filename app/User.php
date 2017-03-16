@@ -103,4 +103,25 @@ class User extends Authenticatable implements JWTSubject
 
         return $count;
     }
+
+    public static function sendWxMsg($username, $title, $message, $url = '')
+    {
+        $articles = [
+            Qywx::buildNewsItem($title, $message, $url, ''),
+        ];
+
+        if (!is_array($username)) {
+            $username = [$username];
+        }
+
+        $username = array_filter($username, function ($name) {
+            return !in_array($name, ['suadmin', 'admin', 'demo']);
+        });
+
+        return Qywx::sendNewsMsg(
+            $articles,
+            ['touser' => $username],
+            config('qywx.appid')
+        );
+    }
 }
