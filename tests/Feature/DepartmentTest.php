@@ -24,7 +24,6 @@ class DepartmentTest extends TestCase
 
     public function testSync()
     {
-
         $this->postJson('/api/departments/sync')->assertStatus(401);
 
         $this->iam('usertest')->postJson('/api/departments/sync')->assertStatus(403);
