@@ -288,6 +288,33 @@ FORMAT: 1A
                 "code": 0
             }
 
+## 获取某个用户所有的角色 [GET /api/users/roles{?username=suadmin}]
+
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": [
+                    {
+                        "id": 1,
+                        "name": "suadmin",
+                        "display_name": "超级管理员",
+                        "description": "suadmin",
+                        "created_at": "2017-03-16 11:14:14",
+                        "updated_at": "2017-03-16 11:14:14",
+                        "pivot": {
+                            "user_id": 1,
+                            "role_id": 1
+                        }
+                    }
+                ],
+                "errors": null,
+                "code": 0
+            }
+
 # 部门管理 [/api/departments]
 部门管理
 

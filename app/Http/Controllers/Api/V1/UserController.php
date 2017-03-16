@@ -158,4 +158,38 @@ class UserController extends Controller
 
         return $this->ajax('error', '发送消息失败');
     }
+
+    /**
+     * 获取某个用户所有的角色
+     *
+     * @get("roles{?username=suadmin}")
+     * @Response(200, body={
+     *     "status": "ok|error",
+     *     "message": "...",
+     *     "data": {
+     *         {
+     *             "id": 1,
+     *             "name": "suadmin",
+     *             "display_name": "超级管理员",
+     *             "description": "suadmin",
+     *             "created_at": "2017-03-16 11:14:14",
+     *             "updated_at": "2017-03-16 11:14:14",
+     *             "pivot": {
+     *                 "user_id": 1,
+     *                 "role_id": 1
+     *             }
+     *         },
+     *     },
+     *     "errors":null,
+     *     "code":0
+     * })
+     */
+    public function roles(Request $request)
+    {
+        $username = $request->input('username');
+
+        $user = User::findByUsername($username);
+
+        return $this->ajax('ok', '获取成功', $user->roles->toArray());
+    }
 }

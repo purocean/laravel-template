@@ -32,6 +32,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
         $api->group(['middleware' => ['can.path:/users/*']], function ($api) {
             $api->get('/users/list', 'UserController@list');
             $api->post('/users/sync', 'UserController@sync');
+            $api->get('/users/roles', 'UserController@roles');
             $api->get('/users/allroles', 'UserController@allRoles');
             $api->post('/users/attachroles', 'UserController@attachRoles');
             $api->post('/users/sendmessage', 'UserController@sendMessage');

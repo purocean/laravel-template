@@ -53,6 +53,11 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    public static function findByUsername($username)
+    {
+        return self::where(['username' => $username])->firstOrFail();
+    }
+
     public static function sync($update = true)
     {
         $departments = Department::select('id', 'name')->get()->keyBy('id')->toArray();

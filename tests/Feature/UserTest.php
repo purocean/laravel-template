@@ -51,6 +51,18 @@ class UserTest extends TestCase
             ->assertJson(['status' => 'ok']);
     }
 
+    public function testRoles()
+    {
+        $this->getJson('/api/users/roles?username=admin')->assertStatus(401);
+
+        $this->iam('usertest')->getJson('/api/users/roles?username=admin')->assertStatus(403);
+
+        $this->iam('useradmin')
+            ->getJson('/api/users/roles?username=admin')
+            ->assertStatus(200)
+            ->assertJson(['status' => 'ok']);
+    }
+
     public function testAttachRoles()
     {
         $this->postJson('/api/users/attachroles')->assertStatus(401);
