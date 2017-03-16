@@ -1,5 +1,5 @@
 // 修改下面两行开发
-const devRemoteUrl = 'http://192.168.1.108:8080'
+const devRemoteUrl = 'http://192.168.1.108:8000'
 const devPort = 8077
 
 // see http://vuejs-templates.github.io/webpack for documentation.
