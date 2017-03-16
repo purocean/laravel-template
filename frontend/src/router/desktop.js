@@ -7,7 +7,7 @@ import Login from '@/desktop/Login.vue'
 import Users from '@/desktop/Users.vue'
 import Departments from '@/desktop/Departments.vue'
 
-import 'iview/dist/styles/iview.css'
+import '@/theme/default.less'
 
 Vue.use(Router)
 Vue.use(iView)
