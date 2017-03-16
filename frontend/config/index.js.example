@@ -33,7 +33,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/*': {
+      '/api': {
         target: devRemoteUrl,
       },
     },
