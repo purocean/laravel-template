@@ -14,6 +14,7 @@
     "dist-win": "xcopy dist\\* ..\\public\\ /s /e /y"
   },
   "dependencies": {
+    "Particleground.js": "^1.1.0",
     "iview": "^2.0.0-rc.2",
     "jr-qrcode": "^1.0.5",
     "vue": "^2.2.2",

@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+    <div id="particle">
+
+    </div>
     <Menu mode="horizontal" theme="light" activeName="login" class="nav">
       <div class="layout-nav">
         <router-link class="logo" to="/">Laravel template</router-link>
@@ -40,6 +43,7 @@
         </FormItem>
       </iForm>
     </Card>
+    <div id="demo" style="width: 400px; height: 250px;"></div>
   </div>
 </template>
 
@@ -47,6 +51,9 @@
 import Http from '@/utils/Http'
 import Auth from '@/auth/Auth'
 import QRCode from 'jr-qrcode'
+import Particleground from 'Particleground.js'
+
+const Particle = Particleground.particle
 
 export default {
   name: 'login',
@@ -78,6 +85,12 @@ export default {
     Auth.setPermissions({})
     Auth.setRoles({})
     Auth.setUser('')
+    let x = new Particle('#particle', {
+      color: ['#6eb2f7'],
+      maxSpeed: 0.5,
+      minSpeed: 0.2,
+    })
+    console.log(x)
 
     this.updateQr()
   },
@@ -157,6 +170,18 @@ export default {
 .logo {
   color: #444;
   font-size: 1.5em;
+}
+
+.login {
+  position: relative;
+}
+
+#particle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .layout-nav {
