@@ -2,9 +2,14 @@
   <div>
     <Layout class="users" activeNav="/users" :side="side" activeSide="/users">
       <Card>
-        <DataTable :context="self" ref="dataTable" resource="users" :columns="tableColumns">
-          <div slot="action">
+        <DataTable :search="searchStr" :context="self" ref="dataTable" resource="users" :columns="tableColumns">
+          <div slot="action" style="display: flex; justify-content:space-between;">
             <Button :loading="syncing" type="primary" @click.native="sync()">从企业号同步</Button>
+            <div style="display:inline-block; width: 20em;">
+              <Input v-model="searchStr" placeholder="搜索用户..." @on-enter="search">
+                <Button slot="append" icon="ios-search" @click="search" style="cursor: pointer;"></Button>
+              </Input>
+            </div>
           </div>
         </DataTable>
       </Card>
@@ -13,13 +18,15 @@
       v-model="showRoles"
       title="分配角色"
       @on-ok="attachRoles">
-      <iForm label-position="left" :label-width="100">
-        <FormItem>
-          <Checkbox-group v-model="checkRoles">
-            <Checkbox v-for="role in allroles" :key="role.id" :label="role.name">{{ role.display_name }}</Checkbox>
-          </Checkbox-group>
-        </FormItem>
-    </iForm>
+      <Checkbox-group v-model="checkRoles">
+        <Checkbox v-for="role in allroles" :key="role.id" :label="role.name">{{ role.display_name }}</Checkbox>
+      </Checkbox-group>
+    </Modal>
+    <Modal
+      v-model="showMessage"
+      title="发送消息"
+      @on-ok="sendMessage">
+      <Input type="textarea" :rows="4" placeholder="请输入..." v-model="message"></Input>
     </Modal>
   </div>
 </template>
@@ -47,7 +54,10 @@ export default {
     return {
       self: this,
       checkRoles: [],
+      message: '',
+      searchStr: '',
       showRoles: false,
+      showMessage: false,
       allroles: null,
       user: null,
       side: [{name: '/users', text: '用户管理', icon: 'person-stalker'}],
@@ -78,7 +88,16 @@ export default {
           key: 'control',
           width: 110,
           render (row) {
-            return `<i-button type="ghost" shape="circle" icon="chatbubble-working" ></i-button><i-button type="ghost" shape="circle" icon="edit" @click="showRolesModal('${row.username}')"></i-button>`
+            return `<i-button
+              type="ghost"
+              shape="circle"
+              icon="chatbubble-working"
+              @click="showMessageModal('${row.username}')"></i-button>
+            <i-button
+              type="ghost"
+              shape="circle"
+              icon="edit"
+              @click="showRolesModal('${row.username}')"></i-button>`
           }
         }
       ],
@@ -87,6 +106,7 @@ export default {
   },
   methods: {
     showRolesModal (user) {
+      this.checkRoles = []
       this.showRoles = true
       this.username = user
 
@@ -99,6 +119,12 @@ export default {
           this.$Message.error(result.message)
         }
       })
+    },
+
+    showMessageModal (user) {
+      this.message = ''
+      this.showMessage = true
+      this.username = user
     },
 
     sync () {
@@ -117,18 +143,43 @@ export default {
     },
 
     attachRoles () {
-      Http.fetch(`/api/users/attachroles`, {method: 'post', body: {username: this.username, rolenames: this.checkRoles}}, result => {
-        if (result.status === 'ok') {
-          this.$Message.success(result.message)
-        } else {
-          this.$Message.error(result.message)
+      Http.fetch(
+        `/api/users/attachroles`,
+        {
+          method: 'post',
+          body: {username: this.username, rolenames: this.checkRoles}
+        },
+        result => {
+          if (result.status === 'ok') {
+            this.$Message.success(result.message)
+          } else {
+            this.$Message.error(result.message)
+          }
         }
-
-        this.syncing = false
-
-        this.$refs.dataTable.loadData(1)
-      })
+      )
     },
+
+    sendMessage () {
+      Http.fetch(
+        `/api/users/sendmessage`,
+        {
+          method: 'post',
+          body: {username: this.username, message: this.message}
+        },
+        result => {
+          if (result.status === 'ok') {
+            this.$Message.success(result.message)
+          } else {
+            this.$Message.error(result.message)
+          }
+        }
+      )
+    },
+
+    search () {
+      console.log(this.searchStr)
+      this.$refs.dataTable.loadData(1)
+    }
   }
 }
 </script>

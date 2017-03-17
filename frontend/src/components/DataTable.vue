@@ -35,7 +35,7 @@ import SpinWrapper from '@/components/SpinWrapper'
 export default {
   name: 'data-table',
   components: { SpinWrapper },
-  props: ['resource', 'columns', 'context'],
+  props: ['resource', 'columns', 'context', 'search'],
   mounted () {
     this.loadData(1)
   },
@@ -52,14 +52,18 @@ export default {
     },
     loadData (page) {
       this.loading = true
-      Http.fetch(`/api/${this.resource}/list?page=${page}`, {}, result => {
-        if (result.status === 'ok') {
-          this.tableData = result.data
-        } else {
-          this.$Message.error(result.message)
+      Http.fetch(
+        `/api/${this.resource}/list?page=${page}&search=` + encodeURIComponent(this.search || ''),
+        {},
+        result => {
+          if (result.status === 'ok') {
+            this.tableData = result.data
+          } else {
+            this.$Message.error(result.message)
+          }
+          this.loading = false
         }
-        this.loading = false
-      })
+      )
     },
   }
 }
