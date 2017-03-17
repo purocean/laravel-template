@@ -36,8 +36,9 @@ class UserController extends Controller
 
     /**
      * 获取用户列表
+     * search 参数可以搜索 name，username，mobile，email
      *
-     * @get("list{?page}")
+     * @get("list{?page=1&search=管理员}")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -69,9 +70,18 @@ class UserController extends Controller
      *     "code":0
      * })
      */
-    public function list()
+    public function list(Request $request)
     {
-        return $this->ajax('ok', '获取成功', User::paginate(15)->toArray());
+        $search = $request->input('search');
+
+        $data = User::where('name', 'like', "%{$search}%")
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('mobile', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->paginate(15)
+                    ->toArray();
+
+        return $this->ajax('ok', '获取成功', $data);
     }
 
     /**

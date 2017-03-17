@@ -181,7 +181,8 @@ FORMAT: 1A
                 "code": 0
             }
 
-## 获取用户列表 [GET /api/users/list{?page}]
+## 获取用户列表
+search 参数可以搜索 name，username，mobile，email [GET /api/users/list{?page=1&search=管理员}]
 
 
 + Response 200 (application/json)
