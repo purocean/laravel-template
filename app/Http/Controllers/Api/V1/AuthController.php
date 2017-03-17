@@ -46,7 +46,10 @@ class AuthController extends Controller
 
             foreach ($user->roles as $role) {
                 $roles[$role->name] = $role->display_name;
-                $perms = array_column($role->perms->toArray(), 'display_name', 'name');
+                $perms = array_merge(
+                    $perms,
+                    array_column($role->perms->toArray(), 'display_name', 'name')
+                );
             }
 
             return $this->ajax('ok', '获取成功', compact('roles', 'perms'));
