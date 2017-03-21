@@ -21,6 +21,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
     $api->post('/login', 'AuthController@login');
     $api->post('/qrlogin', 'AuthController@qrlogin');
     $api->post('/codelogin', 'AuthController@codelogin');
+    $api->get('/file', 'FileController@download');
+    $api->post('/file/upload', 'FileController@upload');
 
     // 需要登录才能操作
     $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {

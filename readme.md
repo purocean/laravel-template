@@ -10,7 +10,7 @@ Laravel 5.4 RESTful 应用模板，包含企业号同步联系人，扫码登录
 + [x] 微信企业号同步联系人
 + [x] 扫码登录
 + [x] Vue2 iView 前端界面
-+ [ ] 文件上传处理
++ [x] 文件上传处理
 + [x] 微信 jssdk
 + [x] RESTful
 
@@ -20,6 +20,7 @@ Laravel 5.4 RESTful 应用模板，包含企业号同步联系人，扫码登录
 + [x] Composer
 + [x] Redis
 + [x] Mysql 5.7
++ [x] MongoDB 3.2+
 
 安装
 -------------------

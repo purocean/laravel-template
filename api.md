@@ -164,6 +164,45 @@ FORMAT: 1A
                 "code": 0
             }
 
+# 文件 [/file]
+文件上传下载
+
+## 文件下载 [GET /file/?id=58d1283604f80a6024000f27{&thumb=1}]
+
+
++ Response 200 (application/json)
+
+## 上传文件 [GET /file/upload]
+
+
++ Request (application/json)
+    + Body
+
+            {
+                "file": "file....",
+                "tag": "tag",
+                "title": "title",
+                "comment": "comment"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": {
+                    "tag": "hhhtag",
+                    "title": "kkktitle",
+                    "comment": "kkkcomment",
+                    "name": "TIM截图20170317154115.png",
+                    "mime": "image/png",
+                    "size": 35640
+                },
+                "errors": null,
+                "code": 0
+            }
+
 # 用户 [/api/users]
 用户
 
