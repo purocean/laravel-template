@@ -12,7 +12,6 @@ use Closure;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    use DatabaseMigrations;
 
     public function setUp()
     {
@@ -31,6 +30,7 @@ abstract class TestCase extends BaseTestCase
                 'database'  => ':memory:',
                 'prefix'    => '',
             ],
+            'database.connections.mongodb.database' => 'laravel_template_test',
         ]);
 
         Artisan::call('migrate:refresh');
@@ -46,7 +46,8 @@ abstract class TestCase extends BaseTestCase
     {
 
         if ($refresh !== false) {
-            // 下面这两句必须加，不然在一个测试里面不能多次请求
+            // 下面这三句必须加，不然在一个测试里面不能多次请求
+            $this->tearDown();
             $this->refreshApplication();
             $this->setUp();
 
