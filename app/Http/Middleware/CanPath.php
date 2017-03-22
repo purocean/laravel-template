@@ -17,7 +17,10 @@ class CanPath
      */
     public function handle($request, Closure $next, $permission)
     {
-        if ($request->is('api' . $permission) and Entrust::can($permission)) {
+        $matched = $request->is('api' . $permission)
+                    || $request->is('api' . rtrim($permission, '/*'));
+
+        if ($matched and Entrust::can($permission)) {
             return $next($request);
         }
 
