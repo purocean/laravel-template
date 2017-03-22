@@ -47,6 +47,7 @@ class FileController extends Controller
      *     "status": "ok|error",
      *     "message": "...",
      *     "data": {
+     *         "id": "58d1dea704f80a5250007ab3",
      *         "tag": "hhhtag",
      *         "title": "kkktitle",
      *         "comment": "kkkcomment",
@@ -97,7 +98,8 @@ class FileController extends Controller
         }
 
         return $this->ajax('ok', '上传成功', [
-            'tag'   => $file->tag,
+            'id'      => $file->id,
+            'tag'     => $file->tag,
             'title'   => $file->title,
             'comment' => $file->comment,
             'name'    => $file->name,
