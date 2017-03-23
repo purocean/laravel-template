@@ -13,11 +13,11 @@ class UserTest extends TestCase
 {
     public function testList()
     {
-        $this->getJson('/api/users/list')->assertStatus(401);
+        $this->getJson('/api/users')->assertStatus(401);
 
-        $this->iam('usertest')->getJson('/api/users/list')->assertStatus(403);
+        $this->iam('usertest')->getJson('/api/users')->assertStatus(403);
 
-        $this->iam('useradmin')->getJson('/api/users/list')
+        $this->iam('useradmin')->getJson('/api/users')
             ->assertStatus(200)
             ->assertJson(['status' => 'ok']);
     }

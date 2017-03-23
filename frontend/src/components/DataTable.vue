@@ -53,7 +53,7 @@ export default {
     loadData (page) {
       this.loading = true
       Http.fetch(
-        `/api/${this.resource}/list?page=${page}&search=` + encodeURIComponent(this.search || ''),
+        `/api/${this.resource}?page=${page}&search=` + encodeURIComponent(this.search || ''),
         {},
         result => {
           if (result.status === 'ok') {

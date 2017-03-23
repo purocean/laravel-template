@@ -222,7 +222,7 @@ FORMAT: 1A
             }
 
 ## 获取用户列表
-search 参数可以搜索 name，username，mobile，email [GET /api/users/list{?page=1&search=管理员}]
+search 参数可以搜索 name，username，mobile，email [GET /api/users{?page=1&search=管理员}]
 
 
 + Response 200 (application/json)
@@ -370,7 +370,7 @@ search 参数可以搜索 name，username，mobile，email [GET /api/users/list{
                 "message": "..."
             }
 
-## 列出部门列表 [GET /api/departments/departments{?page}]
+## 列出部门列表 [GET /api/departments{?page}]
 
 
 + Response 200 (application/json)

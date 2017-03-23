@@ -32,7 +32,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
 
         // 用户
         $api->group(['middleware' => ['can.path:/users/*']], function ($api) {
-            $api->get('/users/list', 'UserController@list');
+            $api->get('/users', 'UserController@list');
             $api->post('/users/sync', 'UserController@sync');
             $api->get('/users/roles', 'UserController@roles');
             $api->get('/users/allroles', 'UserController@allRoles');
@@ -43,7 +43,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
         // 部门
         $api->group(['middleware' => ['can.path:/departments/*']], function ($api) {
             $api->post('/departments/sync', 'DepartmentController@sync');
-            $api->get('/departments/list', 'DepartmentController@list');
+            $api->get('/departments', 'DepartmentController@list');
         });
     });
 });

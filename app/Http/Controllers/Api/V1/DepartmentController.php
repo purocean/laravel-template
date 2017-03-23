@@ -31,7 +31,7 @@ class DepartmentController extends Controller
     /**
      * 列出部门列表
      *
-     * @get("departments{?page}")
+     * @get("{?page}")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",

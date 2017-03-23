@@ -38,7 +38,7 @@ class UserController extends Controller
      * 获取用户列表
      * search 参数可以搜索 name，username，mobile，email
      *
-     * @get("list{?page=1&search=管理员}")
+     * @get("{?page=1&search=管理员}")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
