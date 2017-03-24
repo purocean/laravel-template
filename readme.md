@@ -49,6 +49,7 @@ npm run dist # 把打包的文件复制到 public 目录
 测试
 -------------------
 ```bash
+# 创建测试用 MySQL 数据库 laravel_template_test
 php ./artisan config:clear # 清除配置缓存
 composer exec phpunit # 开始测试
 ```
