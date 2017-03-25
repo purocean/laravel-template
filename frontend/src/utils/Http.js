@@ -2,16 +2,6 @@ import 'whatwg-fetch'
 
 import Auth from '../auth/Auth'
 
-const fixFullUrl = url => {
-  if (/^\//.test(url)) {
-    url = location.protocol + '//' + location.host + url
-  } else if (!/^http/.test(url)) {
-    url = location.protocol + '//' + location.host + location.pathname.substring(0, location.pathname.lastIndexOf('/')) + '/' + url
-  }
-
-  return url
-}
-
 const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() => {}), ...other) => {
   params = Object.assign({
     headers: Object.assign({
@@ -59,13 +49,11 @@ const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() =
   })
 }
 
-const download = (url, params = {}) => {
+const download = (url, params = {}, callback = (() => {})) => {
   fetchWithAuth(url, params, (body, response) => {
     response.blob().then(data => {
       let fileName = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
                       .exec(response.headers.get('Content-Disposition'))[1] || 'download'
-
-      console.log(fileName)
 
       if (window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(data, fileName)
@@ -76,8 +64,10 @@ const download = (url, params = {}) => {
         link.click()
         window.URL.revokeObjectURL(link.href)
       }
+
+      callback(response)
     })
   })
 }
 
-export default { fixFullUrl, fetch: fetchWithAuth, download }
+export default { fetch: fetchWithAuth, download }
