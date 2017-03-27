@@ -10,7 +10,7 @@ use Image;
 /**
  * 文件上传下载
  *
- * @Resource("文件", uri="/file")
+ * @Resource("文件", uri="/api/file")
  */
 class FileController extends Controller
 {

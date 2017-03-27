@@ -164,15 +164,15 @@ FORMAT: 1A
                 "code": 0
             }
 
-# 文件 [/file]
+# 文件 [/api/file]
 文件上传下载
 
-## 文件下载 [GET /file/?id=58d1283604f80a6024000f27{&thumb=1}]
+## 文件下载 [GET /api/file/?id=58d1283604f80a6024000f27{&thumb=1}]
 
 
 + Response 200 (application/json)
 
-## 上传文件 [GET /file/upload]
+## 上传文件 [GET /api/file/upload]
 
 
 + Request (application/json)
