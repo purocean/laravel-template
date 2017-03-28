@@ -42,11 +42,16 @@
         v-if="hasSide">
         <div class="layout-logo-left"></div>
          <template v-for="item in side">
-          <MenuItem v-if="!item.children" :name="item.name" :key="item.name">
-            <Icon :type="item.icon" size="14"></Icon>
-            <span class="layout-text">{{ item.text }}</span>
-          </MenuItem>
-          <Submenu v-else :name="item.name" :key="item.name">
+          <router-link
+            v-if="!item.children"
+            :key="item.name"
+            :to="item.link"
+            class="link">
+            <MenuItem :name="item.name" >
+              <Icon :type="item.icon" size="14"></Icon>
+              <span class="layout-text">{{ item.text }}</span>
+            </MenuItem>
+          </router-link>          <Submenu v-else :name="item.name" :key="item.name">
             <template slot="title">
               <Icon :type="item.icon"></Icon>
               {{ item.text }}
@@ -196,5 +201,9 @@ export default {
 
 a.sublink {
   color: #757575;
+}
+
+a.link {
+  color: #444;
 }
 </style>
