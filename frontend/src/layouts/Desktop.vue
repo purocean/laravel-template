@@ -4,13 +4,21 @@
       <div class="layout-nav">
         <router-link class="logo" to="/">Laravel template</router-link>
         <div class="main-menu">
-          <router-link v-for="nav in mainNav" v-if="can(nav.name)" :key="nav.name" :to="nav.link">
+          <router-link
+            v-for="nav in mainNav"
+            v-if="can(nav.name)"
+            :key="nav.name"
+            :to="nav.link">
             <MenuItem :name="nav.name">
               <Icon :type="nav.icon"></Icon>
               {{ nav.text }}
             </MenuItem>
           </router-link>
-          <router-link v-for="nav in extNav" v-if="can(nav.name)" :key="nav.name" :to="nav.link">
+          <router-link
+            v-for="nav in extNav"
+            v-if="can(nav.name)"
+            :key="nav.name"
+            :to="nav.link">
             <MenuItem :name="nav.name">
               <Icon :type="nav.icon"></Icon>
               {{ nav.text }}
@@ -27,12 +35,33 @@
       </div>
     </Menu>
     <div class="main">
-      <Menu class="left" :activeName="activeSide" theme="light" v-if="hasSide">
+      <Menu class="left"
+        :activeName="activeSide"
+        :openNames="openSide"
+        theme="light"
+        v-if="hasSide">
         <div class="layout-logo-left"></div>
-        <Menu-item v-for="item in side" :name="item.name" :key="item.name">
-          <Icon :type="item.icon" size="14"></Icon>
-          <span class="layout-text">{{ item.text }}</span>
-        </Menu-item>
+         <template v-for="item in side">
+          <MenuItem v-if="!item.children" :name="item.name" :key="item.name">
+            <Icon :type="item.icon" size="14"></Icon>
+            <span class="layout-text">{{ item.text }}</span>
+          </MenuItem>
+          <Submenu v-else :name="item.name" :key="item.name">
+            <template slot="title">
+              <Icon :type="item.icon"></Icon>
+              {{ item.text }}
+            </template>
+            <router-link
+              v-for="sub in item.children"
+              :to="sub.link"
+              class="sublink"
+              :key="sub.name">
+              <MenuItem :name="sub.name" >
+                <span class="layout-text">{{ sub.text }}</span>
+              </MenuItem>
+            </router-link>
+          </Submenu>
+        </template>
       </Menu>
       <div class="right" :class="{'has-side': hasSide}" :style="{minHeight: minHeight + 'px'}">
         <div class="layout-content">
@@ -52,7 +81,7 @@ import Auth from '@/auth/Auth'
 
 export default {
   name: 'users',
-  props: ['activeNav', 'side', 'extNav', 'activeSide'],
+  props: ['activeNav', 'side', 'extNav', 'activeSide', 'openSide', 'title'],
   components: { Auth },
   data () {
     return {
@@ -64,6 +93,7 @@ export default {
     }
   },
   mounted: function () {
+    this.updateTitle()
     window.addEventListener('resize', this.handleResize)
   },
   beforeDestroy: function () {
@@ -84,6 +114,14 @@ export default {
     can (permission) {
       return Auth.can(permission)
     },
+    updateTitle () {
+      window.document.title = this.title || 'Laravel template'
+    }
+  },
+  watch: {
+    title () {
+      this.updateTitle()
+    }
   }
 }
 </script>
@@ -154,5 +192,9 @@ export default {
 
 .logout:hover span.user {
   font-size: .5em;
+}
+
+a.sublink {
+  color: #757575;
 }
 </style>

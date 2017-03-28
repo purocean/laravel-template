@@ -1,5 +1,10 @@
 <template>
-  <Layout class="departments" activeNav="/departments" :side="side" activeSide="/departments">
+  <Layout
+    class="departments"
+    activeNav="/departments"
+    :side="side"
+    activeSide="/departments"
+    title="部门管理">
     <Card>
       <DataTable ref="dataTable" resource="departments" :columns="tableColumns">
         <div slot="action">

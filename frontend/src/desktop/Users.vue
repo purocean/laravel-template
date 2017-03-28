@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Layout class="users" activeNav="/users" :side="side" activeSide="/users">
+    <Layout class="users" activeNav="/users" :side="side" activeSide="/users" title="用户管理">
       <Card>
         <DataTable :search="searchStr" :context="self" ref="dataTable" resource="users" :columns="tableColumns">
           <div slot="action" style="display: flex; justify-content:space-between;">

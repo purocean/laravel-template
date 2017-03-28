@@ -1,8 +1,6 @@
 <template>
   <div class="login">
-    <div id="particle">
-
-    </div>
+    <div id="particle"></div>
     <Menu mode="horizontal" theme="light" activeName="login" class="nav">
       <div class="layout-nav">
         <router-link class="logo" to="/">Laravel template</router-link>
@@ -93,6 +91,7 @@ export default {
     console.log(x)
 
     this.updateQr()
+    window.document.title = '登录'
   },
   beforeDestroy: function () {
     window.removeEventListener('resize', this.handleResize)
