@@ -45,20 +45,21 @@
           <router-link
             v-if="!item.children"
             :key="item.name"
-            :to="item.link"
+            :to="item.link || ''"
             class="link">
             <MenuItem :name="item.name" >
               <Icon :type="item.icon" size="14"></Icon>
               <span class="layout-text">{{ item.text }}</span>
             </MenuItem>
-          </router-link>          <Submenu v-else :name="item.name" :key="item.name">
+          </router-link>
+          <Submenu v-else :name="item.name" :key="item.name">
             <template slot="title">
               <Icon :type="item.icon"></Icon>
               {{ item.text }}
             </template>
             <router-link
               v-for="sub in item.children"
-              :to="sub.link"
+              :to="sub.link || ''"
               class="sublink"
               :key="sub.name">
               <MenuItem :name="sub.name" >
