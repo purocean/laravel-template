@@ -1,7 +1,7 @@
 const serialize = function (data) {
-    return Object.keys(data).map(function (keyName) {
-        return encodeURIComponent(keyName) + '=' + encodeURIComponent(data[keyName])
-    }).join('&')
+  return Object.keys(data).map(keyName => {
+    return encodeURIComponent(keyName) + '=' + encodeURIComponent(data[keyName])
+  }).join('&')
 }
 
 const fixFull = url => {
