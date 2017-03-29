@@ -59,7 +59,7 @@ export default {
       showRoles: false,
       showMessage: false,
       allroles: null,
-      user: null,
+      username: null,
       side: [{name: '/users', text: '用户管理', icon: 'person-stalker'}],
       tableColumns: [
         {
