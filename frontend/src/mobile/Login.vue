@@ -37,7 +37,7 @@ export default {
           Auth.setUser(result.data.user)
           Auth.setAccessToken(result.data.token)
 
-          this.$router.replace(next.replace(/__refresh__\d*$/, ''))
+          this.$router.replace(next.replace(/__refresh__\d{13}/g, ''))
         } else {
           this.message = result.message
         }
