@@ -125,9 +125,9 @@ export default {
       Auth.setUser(data.user)
       Auth.setAccessToken(data.token)
       let next = this.$route.query.next || '/'
-      this.$router.replace(next.replace(/__refresh__\d{13}/g, ''))
       this.loginTimer && window.clearInterval(this.loginTimer)
       this.codeTimer && window.clearInterval(this.codeTimer)
+      this.$router.replace(next.replace(/__refresh__\d{13}/g, ''))
     },
     updateQr () {
       Http.fetch('/api/qrcode', {}, result => {
