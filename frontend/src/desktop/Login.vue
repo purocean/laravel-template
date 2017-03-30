@@ -124,7 +124,8 @@ export default {
     success (data) {
       Auth.setUser(data.user)
       Auth.setAccessToken(data.token)
-      this.$router.replace(this.$route.query.next || '/')
+      let next = this.$route.query.next || '/'
+      this.$router.replace(next.replace(/__refresh__\d*$/, ''))
       this.loginTimer && window.clearInterval(this.loginTimer)
       this.codeTimer && window.clearInterval(this.codeTimer)
     },
@@ -139,7 +140,7 @@ export default {
             if (this.useQr) {
               Http.fetch(
                 '/api/qrlogin',
-                {method: 'post', body: {nonce: this.qrNonce}},
+                {showLoading: false, method: 'post', body: {nonce: this.qrNonce}},
                 result => {
                   if (result.status === 'ok') {
                     this.success(result.data)

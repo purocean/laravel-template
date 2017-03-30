@@ -1,11 +1,8 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Auth from '@/auth/Auth'
 import Err from '@/mobile/Error'
 import Login from '@/mobile/Login.vue'
 import Qrlogin from '@/mobile/Qrlogin.vue'
-
-Vue.use(Router)
 
 const allowList = ['/', '/error/*', '/login']
 

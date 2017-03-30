@@ -26,7 +26,10 @@
           </router-link>
         </div>
         <router-link to="/login"> <!-- 暂时先这样吧 -->
-          <MenuItem name="login" class="logout">
+          <MenuItem
+            name="login"
+            class="logout"
+            style="width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
             <Icon type="ios-person"></Icon>
             <span class="user"> {{ logoutText }} </span>
             <span class="out"> 退出登录 </span>
@@ -84,6 +87,7 @@
 
 <script>
 import Auth from '@/auth/Auth'
+import 'nprogress/nprogress.css'
 
 export default {
   name: 'users',
@@ -131,6 +135,21 @@ export default {
   }
 }
 </script>
+
+<style>
+  body > #nprogress > .spinner > .spinner-icon {
+    border-top-color: #5cadff;
+    border-left-color: #5cadff;
+  }
+
+  body > #nprogress > .bar {
+    background: #5cadff;
+  }
+
+  body > #nprogress > .bar > .peg {
+    box-shadow: 0 0 10px #5cadff, 0 0 5px #5cadff;
+  }
+</style>
 
 <style scoped>
 .layout-nav {
@@ -198,6 +217,7 @@ export default {
 
 .logout:hover span.user {
   font-size: .5em;
+  display: none;
 }
 
 a.sublink {
@@ -206,5 +226,10 @@ a.sublink {
 
 a.link {
   color: #444;
+}
+
+.ivu-menu-horizontal .ivu-menu-item {
+  font-size: 14px;
+  padding: 0 12px;
 }
 </style>

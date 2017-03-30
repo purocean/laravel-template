@@ -1,8 +1,10 @@
 import 'whatwg-fetch'
-
+import NProgress from 'nprogress'
 import Auth from '../auth/Auth'
 
 const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() => {}), ...other) => {
+  if (params.showLoading !== false) NProgress.start()
+
   params = Object.assign({
     headers: Object.assign({
       'Accept': 'application/json',
@@ -14,6 +16,8 @@ const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() =
   })
 
   return fetch(url, params, ...other).then(response => {
+    NProgress.done()
+
     let token = response.headers.get('Authorization')
     if (token) {
       Auth.setAccessToken(token)
@@ -31,7 +35,7 @@ const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() =
         Auth.setPermissions({})
         Auth.setRoles({})
         Auth.setUser('')
-        location.reload()
+        window.location.href = `${window.location.href}__refresh__` + (new Date().getTime())
       } else if (response.status === 403) {
         Auth.setPermissions({})
         Auth.setRoles({})

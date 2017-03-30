@@ -41,9 +41,7 @@ export default {
   components: { Layout, DataTable },
   mounted () {
     Http.fetch('/api/users/allroles', {}, result => {
-      if (result.status === 'ok') {
-        this.$Message.success(result.message)
-      } else {
+      if (result.status !== 'ok') {
         this.$Message.error(result.message)
       }
 

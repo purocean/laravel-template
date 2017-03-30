@@ -1,16 +1,9 @@
-import Vue from 'vue'
-import iView from 'iview'
 import Router from 'vue-router'
 import Auth from '@/auth/Auth'
 import Err from '@/desktop/Error'
 import Login from '@/desktop/Login.vue'
 import Users from '@/desktop/Users.vue'
 import Departments from '@/desktop/Departments.vue'
-
-import '@/theme/default.less'
-
-Vue.use(Router)
-Vue.use(iView)
 
 const allowList = ['/', '/error', '/login']
 
