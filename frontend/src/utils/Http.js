@@ -18,9 +18,9 @@ const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() =
   return fetch(url, params, ...other).then(response => {
     NProgress.done()
 
-    let token = response.headers.get('Authorization')
+    let token = response.headers.get('Authorization') || ''
     if (token) {
-      Auth.setAccessToken(token)
+      Auth.setAccessToken(token.replace(/^Bearer\s+?/i, ''))
     }
 
     if (response.ok) {
@@ -58,6 +58,8 @@ const download = (url, params = {}, callback = (() => {})) => {
     response.blob().then(data => {
       let fileName = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
                       .exec(response.headers.get('Content-Disposition'))[1] || 'download'
+
+      fileName = fileName.replace(/['"]/g, '')
 
       if (window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(data, fileName)
