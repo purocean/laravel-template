@@ -21,6 +21,7 @@ export default {
     }
   },
   mounted () {
+    window.document.title = '扫码登录'
     this.login(false)
   },
   methods: {
