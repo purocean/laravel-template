@@ -61,6 +61,7 @@ composer exec phpunit # 开始测试
 + storage 及其目录需要有写入权限
 + 任务队列默认是 sync 方式，可在 .env 文件中修改为 redis 方式
 + 如非必要，队列不要用 root 权限执行
++ 线上修改了配置文件请需重新运行 *php ./arartisan* 更新配置缓存
 
 链接
 -------------------
