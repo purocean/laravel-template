@@ -10,8 +10,8 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "dist": "cp -r dist/* ../public/",
-    "dist-win": "xcopy dist\\* ..\\public\\ /s /e /y"
+    "dist": "npm run build && cp -r dist/* ../public/",
+    "dist-win": "npm run build && xcopy dist\\* ..\\public\\ /s /e /y"
   },
   "dependencies": {
     "Particleground.js": "^1.1.0",
