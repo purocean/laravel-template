@@ -43,16 +43,16 @@ const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = null,
         case 403:
           Auth.setPermissions({})
           Auth.setRoles({})
-          router.push(`/error?code=${response.status}&message=无权访问该资源`)
+          router.replace(`/error?code=${response.status}&message=无权访问该资源`)
           break
         case 404:
-          router.push(`/error?code=${response.status}&message=页面找不到`)
+          router.replace(`/error?code=${response.status}&message=页面找不到`)
           break
         case 503:
-          router.push(`/error?code=${response.status}&message=服务器正在维护，请稍后再来吧`)
+          router.replace(`/error?code=${response.status}&message=服务器正在维护，请稍后再来吧`)
           break
         default:
-          router.push(`/error?code=${response.status}&message=出现了一点错误`)
+          router.replace(`/error?code=${response.status}&message=出现了一点错误`)
       }
     } else {
       cbError(response)
