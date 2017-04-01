@@ -1,8 +1,9 @@
 import 'whatwg-fetch'
 import NProgress from 'nprogress'
 import Auth from '../auth/Auth'
+import Router from 'vue-router'
 
-const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() => {}), ...other) => {
+const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = null, ...other) => {
   if (params.showLoading !== false) NProgress.start()
 
   params = Object.assign({
@@ -29,26 +30,35 @@ const fetchWithAuth = (url, params = {}, cbSuccess = (() => {}), cbError = (() =
       } else {
         cbSuccess(response.body, response)
       }
-    } else {
-      if (response.status === 401) {
-        Auth.setAccessToken('')
-        Auth.setPermissions({})
-        Auth.setRoles({})
-        Auth.setUser('')
-        window.location.href = `${window.location.href}__refresh__` + (new Date().getTime())
-      } else if (response.status === 403) {
-        Auth.setPermissions({})
-        Auth.setRoles({})
-        alert('无权限访问资源')
-      } else {
-        alert(`Error: ${response.status}`)
+    } else if (!cbError) {
+      let router = new Router()
+      switch (response.status) {
+        case 401:
+          Auth.setAccessToken('')
+          Auth.setPermissions({})
+          Auth.setRoles({})
+          Auth.setUser('')
+          window.location.href = `${window.location.href}__refresh__` + (new Date().getTime())
+          break
+        case 403:
+          Auth.setPermissions({})
+          Auth.setRoles({})
+          router.push(`/error?code=${response.status}&message=无权访问该资源`)
+          break
+        case 404:
+          router.push(`/error?code=${response.status}&message=页面找不到`)
+          break
+        case 503:
+          router.push(`/error?code=${response.status}&message=服务器正在维护，请稍后再来吧`)
+          break
+        default:
+          router.push(`/error?code=${response.status}&message=出现了一点错误`)
       }
-
+    } else {
       cbError(response)
-      console.log('Network response was not ok.')
     }
   }).catch(error => {
-    cbError(error)
+    if (cbError) cbError(error)
     console.log('There has been a problem with your fetch operation: ' + error.message)
   })
 }
