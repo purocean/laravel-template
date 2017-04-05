@@ -5,7 +5,7 @@
     </div>
     <SpinWrapper :loading="loading">
       <Table
-        :content="self"
+        :context="self"
         :data="tableData.data"
         :columns="columns"
         size="small"

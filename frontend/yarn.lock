@@ -3073,9 +3073,9 @@ istanbul@^0.4.0:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-iview@^2.0.0-rc.2:
-  version "2.0.0-rc.8"
-  resolved "http://registry.npm.taobao.org/iview/download/iview-2.0.0-rc.8.tgz#8373fcc72fc15982b96dc1f92143d46ccda4c74c"
+iview@^2.0.0-rc.9:
+  version "2.0.0-rc.9"
+  resolved "http://registry.npm.taobao.org/iview/download/iview-2.0.0-rc.9.tgz#76a17378db09823374e94b575da8f2b22ccc58fc"
   dependencies:
     async-validator "^1.6.7"
     core-js "^2.4.1"
