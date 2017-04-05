@@ -281,7 +281,7 @@ class AuthController extends Controller
             $token = JWTAuth::fromUser($user);
 
             return compact('user', 'token');
-        } catch (JWTException $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
