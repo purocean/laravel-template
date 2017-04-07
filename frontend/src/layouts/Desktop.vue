@@ -90,7 +90,7 @@ import Auth from '@/auth/Auth'
 import 'nprogress/nprogress.css'
 
 export default {
-  name: 'users',
+  name: 'desktop-layout',
   props: ['activeNav', 'side', 'extNav', 'activeSide', 'openSide', 'title'],
   components: { Auth },
   data () {
