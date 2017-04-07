@@ -65,6 +65,11 @@ export default {
         }
       )
     },
+  },
+  watch: {
+    resource () {
+      this.loadData(1)
+    }
   }
 }
 </script>

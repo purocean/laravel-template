@@ -259,7 +259,92 @@ search 参数可以搜索 name，username，mobile，email [GET /api/users{?page
                 "code": 0
             }
 
-## 给用户分配角色 [POST /api/users/attachroles]
+## 向某个用户发送微信消息 [POST /api/users/sendmessage]
+
+
++ Request (application/json)
+    + Body
+
+            {
+                "username": "testuser",
+                "message": "测试消息"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": null,
+                "errors": null,
+                "code": 0
+            }
+
+# RBAC [/api/rbac]
+RBAC
+
+## 获取所有的角色列表 [GET /api/rbac/roles]
+
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": [
+                    {
+                        "id": 1,
+                        "name": "suadmin",
+                        "display_name": "超级管理员",
+                        "description": "suadmin",
+                        "created_at": "2017-03-16 11:14:14",
+                        "updated_at": "2017-03-16 11:14:14"
+                    }
+                ],
+                "errors": null,
+                "code": 0
+            }
+
+## 创建一个新角色 [POST /api/rbac/roles]
+
+
++ Request (application/json)
+    + Body
+
+            {
+                "name": "角色名",
+                "display": "显示名字",
+                "description": "描述"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": null,
+                "errors": null,
+                "code": 0
+            }
+
+## 删除一个角色 [DELETE /api/rbac/roles/roleid]
+
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": null,
+                "errors": null,
+                "code": 0
+            }
+
+## 给用户分配角色 [POST /api/rbac/roles/attch]
 
 
 + Request (application/json)
@@ -284,52 +369,7 @@ search 参数可以搜索 name，username，mobile，email [GET /api/users{?page
                 "code": 0
             }
 
-## 获取所有的角色列表 [GET /api/users/allroles]
-
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-                "status": "ok|error",
-                "message": "...",
-                "data": [
-                    {
-                        "id": 1,
-                        "name": "suadmin",
-                        "display_name": "超级管理员",
-                        "description": "suadmin",
-                        "created_at": "2017-03-16 11:14:14",
-                        "updated_at": "2017-03-16 11:14:14"
-                    }
-                ],
-                "errors": null,
-                "code": 0
-            }
-
-## 向某个用户发送微信消息 [POST /api/users/sendmessage]
-
-
-+ Request (application/json)
-    + Body
-
-            {
-                "username": "testuser",
-                "message": "测试消息"
-            }
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-                "status": "ok|error",
-                "message": "...",
-                "data": null,
-                "errors": null,
-                "code": 0
-            }
-
-## 获取某个用户所有的角色 [GET /api/users/roles{?username=suadmin}]
+## 获取某个用户所有的角色 [GET /api/rbac/roles/username]
 
 
 + Response 200 (application/json)
@@ -352,6 +392,43 @@ search 参数可以搜索 name，username，mobile，email [GET /api/users{?page
                         }
                     }
                 ],
+                "errors": null,
+                "code": 0
+            }
+
+## 获取某个角色所有的用户 [GET /api/rbac/roles/users/rolename]
+
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok|error",
+                "message": "...",
+                "data": {
+                    "total": 150,
+                    "per_page": 15,
+                    "current_page": 1,
+                    "last_page": 10,
+                    "next_page_url": "http:\/\/...",
+                    "prev_page_url": null,
+                    "from": 1,
+                    "to": 15,
+                    "data": [
+                        {
+                            "created_at": "2017-03-14 20:42:26",
+                            "departments": "{}",
+                            "email": null,
+                            "id": 1,
+                            "info": "{}",
+                            "mobile": "",
+                            "name": "超级管理员",
+                            "status": 0,
+                            "updated_at": "2017-03-14 20:42:49",
+                            "username": "suadmin"
+                        }
+                    ]
+                },
                 "errors": null,
                 "code": 0
             }

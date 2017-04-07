@@ -9,7 +9,7 @@ const allowList = ['/', '/error', '/login']
 
 const routes = [
   {path: '/', name: '/', redirect: '/users'},
-  {path: '/users', name: 'users', component: Users},
+  {path: '/users/:rolename?', name: 'users', component: Users},
   {path: '/departments', name: 'departments', component: Departments},
   {path: '/login', name: 'login', component: Login},
   {path: '/error', name: 'error', component: Err},

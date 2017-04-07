@@ -2,10 +2,10 @@
   <div>
     <Layout class="users" activeNav="/users" :side="side" activeSide="/users" title="用户管理">
       <Card>
-        <DataTable :search="searchStr" :context="self" ref="dataTable" resource="users" :columns="tableColumns">
+        <DataTable :search="searchStr" :context="self" ref="dataTable" :resource="resource" :columns="tableColumns">
           <div slot="action" style="display: flex; justify-content:space-between;">
             <Button :loading="syncing" type="primary" @click.native="sync()">从企业号同步</Button>
-            <div style="display:inline-block; width: 20em;">
+            <div v-show="!$route.params.rolename" style="display:inline-block; width: 20em;">
               <Input v-model="searchStr" placeholder="搜索用户..." @on-enter="search">
                 <Button slot="append" icon="ios-search" @click="search" style="cursor: pointer;"></Button>
               </Input>
@@ -40,12 +40,15 @@ export default {
   name: 'users',
   components: { Layout, DataTable },
   mounted () {
-    Http.fetch('/api/users/allroles', {}, result => {
+    Http.fetch('/api/rbac/roles', {}, result => {
       if (result.status !== 'ok') {
         this.$Message.error(result.message)
       }
 
       this.allroles = result.data
+      this.side = this.side.concat(result.data.map(elem => {
+        return {name: `/users/${elem.name}`, text: elem.display_name, link: `/users/${elem.name}`, icon: 'person-stalker'}
+      }))
     })
   },
   data () {
@@ -58,7 +61,8 @@ export default {
       showMessage: false,
       allroles: null,
       username: null,
-      side: [{name: '/users', text: '用户管理', icon: 'person-stalker'}],
+      resource: 'users',
+      side: [{name: '/users', text: '全部用户', link: '/users', icon: 'person-stalker'}],
       tableColumns: [
         {
           title: 'ID',
@@ -108,9 +112,9 @@ export default {
       this.showRoles = true
       this.username = user
 
-      Http.fetch(`/api/users/roles?username=${user}`, {}, result => {
+      Http.fetch(`/api/rbac/roles/${user}`, {}, result => {
         if (result.status === 'ok') {
-          this.checkRoles = result.data.map(function (elem) {
+          this.checkRoles = result.data.map(elem => {
             return elem.name
           })
         } else {
@@ -118,13 +122,11 @@ export default {
         }
       })
     },
-
     showMessageModal (user) {
       this.message = ''
       this.showMessage = true
       this.username = user
     },
-
     sync () {
       this.syncing = true
       Http.fetch(`/api/users/sync`, {method: 'post'}, result => {
@@ -139,10 +141,9 @@ export default {
         this.$refs.dataTable.loadData(1)
       })
     },
-
     attachRoles () {
       Http.fetch(
-        `/api/users/attachroles`,
+        `/api/rbac/roles/attach`,
         {
           method: 'post',
           body: {username: this.username, rolenames: this.checkRoles}
@@ -156,7 +157,6 @@ export default {
         }
       )
     },
-
     sendMessage () {
       Http.fetch(
         `/api/users/sendmessage`,
@@ -173,10 +173,19 @@ export default {
         }
       )
     },
-
     search () {
       console.log(this.searchStr)
       this.$refs.dataTable.loadData(1)
+    }
+  },
+  watch: {
+    $route () {
+      if (this.$route.params.rolename) {
+        this.searchStr = ''
+        this.resource = 'rbac/roles/users/' + encodeURIComponent(this.$route.params.rolename)
+      } else {
+        this.resource = 'users'
+      }
     }
   }
 }
