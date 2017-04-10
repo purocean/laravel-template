@@ -38,10 +38,12 @@
       </div>
     </Menu>
     <div class="main">
-      <Menu class="left"
+      <Menu
+        class="left"
+        theme="light"
         :activeName="activeSide"
         :openNames="openSide"
-        theme="light"
+        :style="{overflow: 'auto', maxHeight: minHeight + 'px'}"
         v-if="hasSide">
         <div class="layout-logo-left"></div>
          <template v-for="item in side">
