@@ -25,8 +25,8 @@ abstract class TestCase extends BaseTestCase
     {
         // 配置测试数据库
         config([
-            'database.connections.mysql.database' => 'laravel_template_test',
-            'database.connections.mongodb.database' => 'laravel_template_test',
+            'database.connections.mysql.database' => env('TEST_DATABASE', 'laravel_template_test'),
+            'database.connections.mongodb.database' => env('TEST_DATABASE', 'laravel_template_test'),
         ]);
     }
 
@@ -68,6 +68,6 @@ abstract class TestCase extends BaseTestCase
 
     public function tearDown()
     {
-        $this->resetDatabase();
+        // $this->resetDatabase();
     }
 }
