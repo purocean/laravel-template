@@ -55,7 +55,7 @@ abstract class TestCase extends BaseTestCase
         }
 
         if ($username) {
-            $user = User::where(['username' => $username])->firstOrFail();
+            $user = $this->getUser($username);
             $token = JWTAuth::fromUser($user);
 
             return $this->withServerVariables(
@@ -64,6 +64,11 @@ abstract class TestCase extends BaseTestCase
         } else {
             return $this->withServerVariables([]);
         }
+    }
+
+    protected function getUser($username)
+    {
+        return User::where(['username' => $username])->firstOrFail();
     }
 
     public function tearDown()
