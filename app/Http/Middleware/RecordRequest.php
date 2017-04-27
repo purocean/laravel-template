@@ -37,7 +37,7 @@ class RecordRequest
             $model = new RequestLog;
             $model->url = $request->fullUrl();
             $model->data = $request->all();
-            $model->user = $request->user()->attributesToArray();
+            $model->user = $request->user() ? $request->user()->attributesToArray() : null;
             $model->save();
         }
 
