@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ea74acdf7f97553ed084ef9bf3d5572d",
-    "content-hash": "1024aadc3fafd8bef675c44d918819c5",
+    "hash": "3bc43eb8ebfc83844dc95d44123915de",
+    "content-hash": "cdac978fb39f7574bc9736d81845ad75",
     "packages": [
         {
             "name": "dingo/api",
@@ -1773,16 +1773,16 @@
         },
         {
             "name": "purocean/php-wechat-sdk",
-            "version": "v0.0.5",
+            "version": "v0.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/purocean/php-wechat-sdk.git",
-                "reference": "47270030f44d70152130d0c42c2bc974a9e6cf02"
+                "reference": "23b9b120af4f613b66d6e6e20ff636cb598b9eee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/purocean/php-wechat-sdk/47270030f44d70152130d0c42c2bc974a9e6cf02.zip",
-                "reference": "47270030f44d70152130d0c42c2bc974a9e6cf02",
+                "url": "https://files.phpcomposer.com/files/purocean/php-wechat-sdk/23b9b120af4f613b66d6e6e20ff636cb598b9eee.zip",
+                "reference": "23b9b120af4f613b66d6e6e20ff636cb598b9eee",
                 "shasum": ""
             },
             "require": {
@@ -1807,7 +1807,7 @@
                 "公众号",
                 "微信"
             ],
-            "time": "2017-04-18 07:58:42"
+            "time": "2017-04-28 11:41:07"
         },
         {
             "name": "ramsey/uuid",
