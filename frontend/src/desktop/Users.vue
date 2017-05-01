@@ -2,7 +2,7 @@
   <div>
     <Layout class="users" activeNav="/users" :side="side" activeSide="/users" title="用户管理">
       <Card>
-        <DataTable :search="searchStr" :context="self" ref="dataTable" :resource="resource" :columns="tableColumns">
+        <DataTable :search="searchStr" :context="self" ref="dataTable" :url="url" :columns="tableColumns">
           <div slot="action" style="display: flex; justify-content:space-between;">
             <Button :loading="syncing" type="primary" @click.native="sync()">从企业号同步</Button>
             <div v-show="!$route.params.rolename" style="display:inline-block; width: 20em;">
@@ -61,7 +61,7 @@ export default {
       showMessage: false,
       allroles: null,
       username: null,
-      resource: 'users',
+      url: 'api/users?page={page}',
       side: [{name: '/users', text: '全部用户', link: '/users', icon: 'person-stalker'}],
       tableColumns: [
         {
@@ -174,17 +174,16 @@ export default {
       )
     },
     search () {
-      console.log(this.searchStr)
-      this.$refs.dataTable.loadData(1)
-    }
+      this.url = `api/users?search=${this.searchStr}&page={page}&_t=${new Date().getTime()}`
+    },
   },
   watch: {
     $route () {
       if (this.$route.params.rolename) {
         this.searchStr = ''
-        this.resource = 'rbac/roles/users/' + encodeURIComponent(this.$route.params.rolename)
+        this.url = 'api/rbac/roles/users/' + encodeURIComponent(this.$route.params.rolename) + '?page={page}'
       } else {
-        this.resource = 'users'
+        this.url = 'api/users?page={page}'
       }
     }
   }

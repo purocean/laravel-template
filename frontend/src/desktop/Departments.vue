@@ -6,7 +6,7 @@
     activeSide="/departments"
     title="部门管理">
     <Card>
-      <DataTable ref="dataTable" resource="departments" :columns="tableColumns">
+      <DataTable ref="dataTable" url="api/departments?page={page}" :columns="tableColumns">
         <div slot="action">
           <Button :loading="syncing" type="primary" @click.native="sync()">从企业号同步</Button>
         </div>
