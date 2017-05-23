@@ -23,11 +23,7 @@ abstract class TestCase extends BaseTestCase
 
     public function initApplication()
     {
-        // 配置测试数据库
-        config([
-            'database.connections.mysql.database' => env('TEST_DATABASE', 'laravel_template_test'),
-            'database.connections.mongodb.database' => env('TEST_DATABASE', 'laravel_template_test'),
-        ]);
+        // 配置应用相关
     }
 
     protected function initDatabase()
