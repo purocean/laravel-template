@@ -22,7 +22,7 @@ class AuthController extends Controller
     /**
      * 获取用户的角色权限
      *
-     * @get("limits")
+     * @Get("limits")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -61,7 +61,7 @@ class AuthController extends Controller
     /**
      * 用账号密码登录
      *
-     * @post("login")
+     * @Post("login")
      * @Request({"username": "demo", "password": "testpw"})
      * @Response(200, body={
      *     "status": "ok|error",
@@ -108,7 +108,7 @@ class AuthController extends Controller
     /**
      * 获取扫码登录信息
      *
-     * @get("qrcode")
+     * @Get("qrcode")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -136,7 +136,7 @@ class AuthController extends Controller
     /**
      * 用二维码 nonce 登录
      *
-     * @post("qrlogin")
+     * @Post("qrlogin")
      * @Request({"nonce": "HVaCH2KVNQrgvY5AxegKIcMPknCf6Qcs"})
      * @Response(200, body={
      *     "status": "ok|error",
@@ -183,7 +183,7 @@ class AuthController extends Controller
     /**
      * 用微信授权返回的 code 登录（移动端）
      *
-     * @post("codelogin")
+     * @Post("codelogin")
      * @Request({"code": "fafdcfac7e502ed2d008c52bf46abc67"})
      * @Response(200, body={
      *     "status": "ok|error",
@@ -237,7 +237,7 @@ class AuthController extends Controller
     /**
      * 确认扫码登录
      *
-     * @post("confirmqrlogin")
+     * @Post("confirmqrlogin")
      * @Request({"nonce": "HVaCH2KVNQrgvY5AxegKIcMPknCf6Qcs", "login": true})
      * @Response(200, body={
      *     "status": "ok|error",

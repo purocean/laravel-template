@@ -18,7 +18,7 @@ class DepartmentController extends Controller
     /**
      * 从企业号同步部门
      *
-     * @post("/sync")
+     * @Post("/sync")
      * @Response(200, body={"status": "ok|error", "message": "..."})
      */
     public function sync()
@@ -31,7 +31,7 @@ class DepartmentController extends Controller
     /**
      * 列出部门列表
      *
-     * @get("{?page}")
+     * @Get("{?page}")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",

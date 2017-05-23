@@ -18,7 +18,7 @@ class UserController extends Controller
     /**
      * 从企业号同步用户
      *
-     * @post("sync")
+     * @Post("sync")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -38,7 +38,7 @@ class UserController extends Controller
      * 获取用户列表
      * search 参数可以搜索 name，username，mobile，email
      *
-     * @get("{?page=1&search=管理员}")
+     * @Get("{?page=1&search=管理员}")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -87,7 +87,7 @@ class UserController extends Controller
     /**
      * 向某个用户发送微信消息
      *
-     * @post("sendmessage")
+     * @Post("sendmessage")
      * @Request({"username": "testuser", "message": "测试消息"})
      * @Response(200, body={
      *     "status": "ok|error",

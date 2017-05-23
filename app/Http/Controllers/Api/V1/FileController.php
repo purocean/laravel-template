@@ -17,7 +17,7 @@ class FileController extends Controller
     /**
      * 文件下载
      *
-     * @get("?id=58d1283604f80a6024000f27{&thumb=1}")
+     * @Get("?id=58d1283604f80a6024000f27{&thumb=1}")
      * @Response(200)
      */
     public function download(Request $request)
@@ -36,7 +36,7 @@ class FileController extends Controller
     /**
      * 上传文件
      *
-     * @get("upload")
+     * @Get("upload")
      * @Request({
      *     "file": "file....",
      *     "tag": "tag",

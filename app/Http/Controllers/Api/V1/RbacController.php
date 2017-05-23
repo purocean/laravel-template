@@ -17,7 +17,7 @@ class RbacController extends Controller
     /**
      * 获取所有的角色列表
      *
-     * @get("roles")
+     * @Get("roles")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -43,7 +43,7 @@ class RbacController extends Controller
     /**
      * 创建一个新角色
      *
-     * @post("roles")
+     * @Post("roles")
      * @Request({"name": "角色名", "display": "显示名字", "description": "描述"})
      * @Response(200, body={
      *     "status": "ok|error",
@@ -73,7 +73,7 @@ class RbacController extends Controller
     /**
      * 删除一个角色
      *
-     * @delete("roles/roleid")
+     * @Delete("roles/roleid")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -99,7 +99,7 @@ class RbacController extends Controller
     /**
      * 给用户分配角色
      *
-     * @post("roles/attch")
+     * @Post("roles/attch")
      * @Request({"username": "admin", "rolenames": {"admin", "user"}})
      * @Response(200, body={
      *     "status": "ok|error",
@@ -133,7 +133,7 @@ class RbacController extends Controller
     /**
      * 获取某个用户所有的角色
      *
-     * @get("roles/username")
+     * @Get("roles/username")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -165,7 +165,7 @@ class RbacController extends Controller
     /**
      * 获取某个角色所有的用户
      *
-     * @get("roles/users/rolename")
+     * @Get("roles/users/rolename")
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
