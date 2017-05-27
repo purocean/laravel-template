@@ -81,7 +81,7 @@ class User extends Authenticatable implements JWTSubject
                 $user->username = $member['userid'];
                 $user->name = $member['name'];
                 $user->password = bcrypt(str_random(8));
-                $user->email = $member['email'] ?? null;
+                $user->email = isset($member['email']) ? ($member['email'] ? $member['email'] : null) : null;
                 $user->mobile = $member['mobile'] ?? '';
                 $user->departments = json_encode(array_map(function ($departmentId) use ($departments) {
                     return [$departmentId => $departments[$departmentId]];
@@ -95,7 +95,7 @@ class User extends Authenticatable implements JWTSubject
                 $user->attachRole($role);
             } else {
                 $user->name = $member['name'];
-                $user->email = $member['email'] ?? null;
+                $user->email = isset($member['email']) ? ($member['email'] ? $member['email'] : null) : null;
                 $user->mobile = $member['mobile'] ?? '';
                 $user->departments = json_encode(array_map(function ($departmentId) use ($departments) {
                     return [$departmentId => $departments[$departmentId]];
