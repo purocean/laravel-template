@@ -172,7 +172,7 @@ FORMAT: 1A
 
 + Response 200 (application/json)
 
-## 上传文件 [GET /api/file/upload]
+## 上传文件 [POST /api/file/upload]
 
 
 + Request (application/json)

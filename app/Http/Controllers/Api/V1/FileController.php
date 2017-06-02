@@ -36,7 +36,7 @@ class FileController extends Controller
     /**
      * 上传文件
      *
-     * @Get("upload")
+     * @Post("upload")
      * @Request({
      *     "file": "file....",
      *     "tag": "tag",
