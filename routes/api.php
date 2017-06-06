@@ -26,7 +26,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
         // 无需特殊权限
         $api->post('confirmqrlogin', 'AuthController@confirmqrlogin');
         $api->get('limits', 'AuthController@limits');
-        $api->get('file', 'FileController@download');
+        $api->get('file/{id?}', 'FileController@download');
         $api->post('file/upload', 'FileController@upload');
 
         // 用户

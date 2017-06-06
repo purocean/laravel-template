@@ -17,12 +17,12 @@ class FileController extends Controller
     /**
      * 文件下载
      *
-     * @Get("?id=58d1283604f80a6024000f27{&thumb=1}")
+     * @Get("58d1283604f80a6024000f27{?thumb=1}")
      * @Response(200)
      */
-    public function download(Request $request)
+    public function download(Request $request, $id = null)
     {
-        $id = $request->input('id');
+        is_null($id) and $id = $request->input('id');
         $thumb = $request->input('thumb') == 1;
 
         $file = File::findOrFail($id);

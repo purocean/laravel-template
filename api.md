@@ -167,7 +167,7 @@ FORMAT: 1A
 # 文件 [/api/file]
 文件上传下载
 
-## 文件下载 [GET /api/file/?id=58d1283604f80a6024000f27{&thumb=1}]
+## 文件下载 [GET /api/file/58d1283604f80a6024000f27{?thumb=1}]
 
 
 + Response 200 (application/json)
