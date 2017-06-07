@@ -113,7 +113,9 @@ export default {
   },
   computed: {
     logoutText () {
-      return Object.values(Auth.getRoles()).toString() + ' ' + (Auth.getUser().name || Auth.getUser().username)
+      return (Auth.getUser().name || Auth.getUser().username) +
+              ' ' +
+              Object.values(Auth.getRoles()).filter(x => x !== '普通用户').toString()
     },
     hasSide () {
       return this.side !== undefined
