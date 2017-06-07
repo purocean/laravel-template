@@ -37,7 +37,11 @@ export default {
           Auth.setUser(result.data.user)
           Auth.setAccessToken(result.data.token)
 
-          this.$router.replace(next.replace(/__refresh__\d{13}/g, ''))
+          this.message = '登录成功'
+
+          setTimeout(() => {
+            this.$router.replace(next.replace(/__refresh__\d{13}/g, ''))
+          }, 500)
         } else {
           this.message = result.message
         }
