@@ -43,7 +43,7 @@
         theme="light"
         :activeName="activeSide"
         :openNames="openSide"
-        :style="{overflow: 'auto', maxHeight: minHeight + 'px'}"
+        :style="{overflow: 'auto', minHeight: minHeight + 'px'}"
         v-if="hasSide">
         <div class="layout-logo-left"></div>
          <template v-for="item in side">
@@ -179,6 +179,7 @@ export default {
 .main {
   width: 100%;
   position: relative;
+  background: #f0f0f0;
 }
 
 .left {
@@ -208,7 +209,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #eee;
+  background-color: #fff;
 }
 
 .logout span.out {

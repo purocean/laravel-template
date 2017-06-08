@@ -13,6 +13,7 @@ export default {
 <style>
 body {
   background: #fcfcfc;
+  min-width: 1240px;
 }
 
 #app {
