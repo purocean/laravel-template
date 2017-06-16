@@ -19,8 +19,8 @@ class SeedUsers extends Migration
         Artisan::call('rbac:addrole', ['name' => 'user', 'displayName' => '普通用户']);
 
         Artisan::call('rbac:adduser', ['username' => 'suadmin', 'password' => str_random(10), 'rolename' => 'suadmin', 'name' => '超级管理员']);
-        Artisan::call('rbac:adduser', ['username' => 'admin', 'password' => str_random(10), 'rolename' => 'suadmin', 'name' => '管理员']);
-        Artisan::call('rbac:adduser', ['username' => 'demo', 'password' => str_random(10), 'rolename' => 'suadmin', 'name' => '示例用户']);
+        Artisan::call('rbac:adduser', ['username' => 'admin', 'password' => str_random(10), 'rolename' => 'admin', 'name' => '管理员']);
+        Artisan::call('rbac:adduser', ['username' => 'demo', 'password' => str_random(10), 'rolename' => 'user', 'name' => '示例用户']);
     }
 
     /**
