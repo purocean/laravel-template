@@ -20,7 +20,7 @@ class WechatController extends Controller
         }
     }
 
-    public function actionWxjs()
+    public function wxjs()
     {
         $jsApiPackage = Qywx::getJsApiPackage();
 

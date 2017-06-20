@@ -18,6 +18,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
     // 无需登录即可操作
     $api->get('qrcode', 'AuthController@qrcode');
     $api->get('wxcode', 'WechatController@code');
+    $api->get('wxjs', 'WechatController@wxjs');
     $api->post('login', 'AuthController@login');
     $api->post('qrlogin', 'AuthController@qrlogin');
     $api->post('codelogin', 'AuthController@codelogin');

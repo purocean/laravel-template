@@ -1,9 +1,9 @@
-import Http from './Http';
+import Url from './Url';
 
 export default {
   previewImage(current, urls) {
-    current = Http.fixFullUrl(current);
-    urls = urls.map(src => Http.fixFullUrl(src));
+    current = Url.fixFull(current);
+    urls = urls.map(src => Url.fixFull(src));
 
     window.wx.previewImage({current, urls});
   },
