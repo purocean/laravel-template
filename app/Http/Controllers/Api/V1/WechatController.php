@@ -22,7 +22,7 @@ class WechatController extends Controller
 
     public function wxjs()
     {
-        $jsApiPackage = Qywx::getJsApiPackage();
+        $jsApiPackage = Qywx::getJsApiPackage(url('mobile.html'));
 
         $content = <<< JS
 wx.config({
