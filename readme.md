@@ -1,4 +1,4 @@
-Laravel 5.4 RESTful 应用模板，包含企业号同步联系人，扫码登录，使用 Vue2 iView 做前端
+Laravel 5.4 RESTful 应用模板，包含企业微信同步联系人，扫码登录，使用 Vue2 iView 做前端
 ===============================
 [![composer.lock](https://poser.pugx.org/purocean/laravel-template/composerlock)](https://packagist.org/packages/purocean/laravel-template)
 [![Latest Stable Version](https://poser.pugx.org/purocean/laravel-template/v/stable)](https://packagist.org/packages/purocean/laravel-template)
@@ -7,7 +7,7 @@ Laravel 5.4 RESTful 应用模板，包含企业号同步联系人，扫码登录
 
 特性
 -------------------
-+ [x] 微信企业号同步联系人
++ [x] 微信企业微信同步联系人
 + [x] 扫码登录
 + [x] Vue2 iView 前端界面
 + [x] 文件上传处理
