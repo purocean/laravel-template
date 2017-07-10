@@ -259,14 +259,13 @@ search 参数可以搜索 name，username，mobile，email [GET /api/users{?page
                 "code": 0
             }
 
-## 向某个用户发送微信消息 [POST /api/users/sendmessage]
+## 向某个用户发送微信消息 [POST /api/users/sendmessage/testuser]
 
 
 + Request (application/json)
     + Body
 
             {
-                "username": "testuser",
                 "message": "测试消息"
             }
 
