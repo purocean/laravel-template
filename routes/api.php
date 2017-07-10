@@ -34,7 +34,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
         $api->group(['middleware' => ['can.path:/users/*']], function ($api) {
             $api->get('users', 'UserController@list');
             $api->post('users/sync', 'UserController@sync');
-            $api->post('users/sendmessage', 'UserController@sendMessage');
+            $api->post('users/sendmessage/{username}', 'UserController@sendMessage');
         });
 
         // RBAC

@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Jobs\SyncUserFromQywx;
+use App\Jobs\SyncFromQywx;
 use App\User;
 use Auth;
 use Cache;
-use Qywx;
+use Wxsdk\Qywx;
 
 /**
  * 认证授权
@@ -215,13 +215,15 @@ class AuthController extends Controller
             return $this->ajax('error', '未提供code');
         }
 
-        if (! $username = Qywx::getUserId($code)) {
+        $qywx = new Qywx(config('qywx.app'));
+
+        if (! $username = $qywx->getUserId($code)) {
             return $this->ajax('error', '不属于企业号，请联系管理员，或稍后再试');
         }
 
         if (! $loginResult = $this->_loginByUsername($username)) {
             // 可能数据库数据数据，尝试同步
-            dispatch(new SyncUserFromQywx(true));
+            dispatch(new SyncFromQywx(true));
             return $this->ajax('error', '或许您是新加入的成员，请耐心等待系统同步数据，十分钟后再来吧 :)');
         }
 

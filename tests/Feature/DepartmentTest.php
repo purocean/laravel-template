@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Jobs\SyncUserFromQywx;
+use App\Jobs\SyncFromQywx;
 use Queue;
 
 class DepartmentTest extends TestCase
@@ -36,6 +36,6 @@ class DepartmentTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['status' => 'ok']);
 
-        Queue::assertPushed(SyncUserFromQywx::class);
+        Queue::assertPushed(SyncFromQywx::class);
     }
 }

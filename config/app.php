@@ -234,7 +234,6 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
-        'Qywx' => App\Facades\Qywx::class
 
     ],
 

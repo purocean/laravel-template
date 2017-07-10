@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
-use Qywx;
+use Wxsdk\Qywx;
 use App\Http\Controllers\Controller;
 
 class WechatController extends Controller
@@ -16,13 +16,15 @@ class WechatController extends Controller
 
             return redirect("/mobile.html#/login/?code={$code}&next=" . urlencode($next));
         } else {
-            return redirect(Qywx::getJumpOAuthUrl(url()->full()));
+            $qywx = new Qywx(config('qywx.app'));
+            return redirect($qywx->getJumpOAuthUrl(url()->full()));
         }
     }
 
     public function wxjs()
     {
-        $jsApiPackage = Qywx::getJsApiPackage(url('mobile.html'));
+        $qywx = new Qywx(config('qywx.app'));
+        $jsApiPackage = $qywx->getJsApiPackage(url('mobile.html'));
 
         $content = <<< JS
 wx.config({

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Jobs\SyncUserFromQywx;
-use App\User;
-use App\Role;
+use App\Jobs\SyncFromQywx;
+use App\Biz\UserBiz;
+use App\Repositories\UserRepository;
 
 /**
  * 用户
@@ -15,6 +15,15 @@ use App\Role;
  */
 class UserController extends Controller
 {
+    protected $userRepo;
+    protected $userBiz;
+
+    public function __construct(UserRepository $userRepo, UserBiz $userBiz)
+    {
+        $this->userRepo = $userRepo;
+        $this->userBiz = $userBiz;
+    }
+
     /**
      * 从企业号同步用户
      *
@@ -29,7 +38,7 @@ class UserController extends Controller
      */
     public function sync()
     {
-        dispatch(new SyncUserFromQywx);
+        dispatch(app(SyncFromQywx::class));
 
         return $this->ajax('ok', "已经开始同步，请稍后刷新页面查看同步结果");
     }
@@ -74,12 +83,7 @@ class UserController extends Controller
     {
         $search = $request->input('search');
 
-        $data = User::where('name', 'like', "%{$search}%")
-                    ->orWhere('username', 'like', "%{$search}%")
-                    ->orWhere('mobile', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->paginate(15)
-                    ->toArray();
+        $data = $this->userRepo->search($search);
 
         return $this->ajax('ok', '获取成功', $data);
     }
@@ -87,8 +91,8 @@ class UserController extends Controller
     /**
      * 向某个用户发送微信消息
      *
-     * @Post("sendmessage")
-     * @Request({"username": "testuser", "message": "测试消息"})
+     * @Post("sendmessage/testuser")
+     * @Request({"message": "测试消息"})
      * @Response(200, body={
      *     "status": "ok|error",
      *     "message": "...",
@@ -97,12 +101,11 @@ class UserController extends Controller
      *     "code":0
      * })
      */
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request, $username)
     {
-        $username = $request->json('username');
         $message = $request->json('message');
 
-        if (User::sendWxMsg($username, '管理员消息', $message)) {
+        if ($this->userBiz->sendWxMsg($username, '管理员消息', $message)) {
             return $this->ajax('ok', '发送消息成功');
         }
 

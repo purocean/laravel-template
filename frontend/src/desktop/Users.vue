@@ -175,10 +175,10 @@ export default {
     },
     sendMessage () {
       Http.fetch(
-        `/api/users/sendmessage`,
+        `/api/users/sendmessage/${this.username}`,
         {
           method: 'post',
-          body: {username: this.username, message: this.message}
+          body: {message: this.message}
         },
         result => {
           if (result.status === 'ok') {

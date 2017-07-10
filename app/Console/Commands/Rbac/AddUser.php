@@ -51,7 +51,6 @@ class AddUser extends Command
         $user->password = bcrypt($password);
         $user->name = $name;
         $user->email = $email;
-        $user->departments = '{}';
         $user->info = '{}';
 
         $user->saveOrFail();

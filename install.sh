@@ -120,6 +120,9 @@ sed -i "s/^QYWX_ROOTID=.*$/QYWX_ROOTID=$ans/" .env
 read -p "QYWX_CORPID: " ans
 sed -i "s/^QYWX_CORPID=.*$/QYWX_CORPID=$ans/" .env
 
+read -p "QYWX_CONTACTS_SECRET: " ans
+sed -i "s/^QYWX_CONTACTS_SECRET=.*$/QYWX_CONTACTS_SECRET=$ans/" .env
+
 read -p "QYWX_SECRET: " ans
 sed -i "s/^QYWX_SECRET=.*$/QYWX_SECRET=$ans/" .env
 

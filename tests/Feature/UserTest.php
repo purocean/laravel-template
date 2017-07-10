@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Jobs\SyncUserFromQywx;
+use App\Jobs\SyncFromQywx;
 use Queue;
 
 class UserTest extends TestCase
@@ -36,26 +36,21 @@ class UserTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['status' => 'ok']);
 
-        Queue::assertPushed(SyncUserFromQywx::class);
+        Queue::assertPushed(SyncFromQywx::class);
     }
 
     public function testSendMessage()
     {
         $username = 'cscs'; // 在这里改成你的微信 userid 测试
 
-        $this->postJson('/api/users/sendmessage')->assertStatus(401);
+        $this->postJson('/api/users/sendmessage/xxx')->assertStatus(401);
 
-        $this->iam('usertest')->postJson('/api/users/sendmessage')->assertStatus(403);
+        $this->iam('usertest')->postJson('/api/users/sendmessage/xx')->assertStatus(403);
 
-        $this->iam('useradmin')->getJson('/api/users/sendmessage')->assertStatus(405);
-
-        $this->iam('useradmin')
-            ->postJson('/api/users/sendmessage', ['username' => 'notExist', 'message' => '测试消息'])
-            ->assertStatus(200)
-            ->assertJson(['status' => 'error']);
+        $this->iam('useradmin')->getJson('/api/users/sendmessage/xxx')->assertStatus(405);
 
         $this->iam('useradmin')
-            ->postJson('/api/users/sendmessage', ['username' => $username, 'message' => '测试消息'])
+            ->postJson('/api/users/sendmessage/' . $username, ['message' => '测试消息'])
             ->assertStatus(200)
             ->assertJson(['status' => 'ok']);
     }
