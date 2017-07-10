@@ -89,17 +89,33 @@ export default {
           title: '操作',
           key: 'control',
           width: 110,
-          render (row) {
-            return `<i-button
-              type="ghost"
-              shape="circle"
-              icon="chatbubble-working"
-              @click="showMessageModal('${row.username}')"></i-button>
-            <i-button
-              type="ghost"
-              shape="circle"
-              icon="edit"
-              @click="showRolesModal('${row.username}')"></i-button>`
+          render: (h, p) => {
+            return h('div', [
+              h('i-button', {
+                props: {
+                  type: 'ghost',
+                  shape: 'circle',
+                  icon: 'chatbubble-working',
+                },
+                on: {
+                  click: () => {
+                    this.showMessageModal(p.row.username)
+                  }
+                }
+              }),
+              h('i-button', {
+                props: {
+                  type: 'ghost',
+                  shape: 'circle',
+                  icon: 'edit',
+                },
+                on: {
+                  click: () => {
+                    this.showRolesModal(p.row.username)
+                  }
+                }
+              }),
+            ])
           }
         }
       ],
