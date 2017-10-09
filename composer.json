@@ -9,11 +9,11 @@
         "issues": "https://github.com/purocean/laravel-template/issues?state=open"
     },
     "require": {
-        "php": ">=5.6.4",
-        "dingo/api": "1.*.*@dev",
+        "php": ">=7.0.0",
+        "dingo/api": "2.*.*@alpha",
         "intervention/image": "^2.3",
-        "jenssegers/mongodb": "^3.2",
-        "laravel/framework": "5.4.*",
+        "jenssegers/mongodb": "^3.3@alpha",
+        "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "predis/predis": "^1.1",
         "purocean/php-wechat-sdk": "^0.3.0",
