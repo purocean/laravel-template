@@ -10,7 +10,7 @@ export default {
   name: 'login',
   data () {
     return {
-      message: '请稍后……'
+      message: '请稍候……'
     }
   },
   mounted () {

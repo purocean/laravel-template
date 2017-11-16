@@ -60,7 +60,7 @@ export default {
       loading: false,
       useQr: true,
       qrImg: '',
-      qrStatus: '请稍后……',
+      qrStatus: '请稍候……',
       qrNonce: '',
       loginTimer: null,
       codeTimer: null,

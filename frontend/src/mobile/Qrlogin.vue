@@ -27,7 +27,7 @@ export default {
   methods: {
     login (confirmed = true) {
       if (confirmed) {
-        this.message = '请稍后……'
+        this.message = '请稍候……'
         this.submit = true
       }
 
