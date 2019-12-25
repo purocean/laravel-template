@@ -5,6 +5,8 @@ Laravel 5.4 RESTful 应用模板，包含企业微信同步联系人，扫码登
 [![Total Downloads](https://poser.pugx.org/purocean/laravel-template/downloads)](https://packagist.org/packages/purocean/laravel-template)
 [![License](https://poser.pugx.org/purocean/laravel-template/license)](https://packagist.org/packages/purocean/laravel-template)
 
+> 此项目不再维护，仅作学习参考用，勿用作生产。
+
 特性
 -------------------
 + [x] 微信企业微信同步联系人
